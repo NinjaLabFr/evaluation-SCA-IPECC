@@ -55,7 +55,7 @@ bash test_all_scripts_level3-1.sh
 Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
 
 >[!NOTE]
-> To run the script `test_all_scripts_level3-1.sh`, you need at least 140GB of free disk space. More generally, if you download, untar and run the SCA flow on X subsets, you will need at least X.70GB of free disk space.
+> To run the script `test_all_scripts_level3-1.sh`, you need at least 140GB of free disk space. More generally, if you download, untar and run the SCA flow on X subsets of one dataset, you will need at least X.70GB of free disk space.
 
 
 
