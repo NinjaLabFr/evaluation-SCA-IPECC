@@ -208,13 +208,13 @@ The scripts are based on [SCALib](https://scalib.readthedocs.io/).
 
 
 ## Demonstration
-In this demonstration, we will create a directory `data` in which we move our dataset and which will contain all the operations outputs.  
+In this demonstration, we will create a directory `test_level3-1` in which we move our dataset and which will contain all the operations outputs.  
 
 **Step 1: Generating $\kappa$ and $\kappa'$**  
 The first step is to generate the inputs $\kappa$ and $\kappa'$ that are used instead of $k$ in the scalar multiplication (which implement the anti-ADPA countermeasure).
 
 ```
-python3 compute_kappas.py -d data/ecc_traces_l3_1.h5 -t data
+python3 compute_kappas.py -d test_level3-1/ipecc_level_3-1_part_0.h5 -t test_level3-1
 
     ┌──────────────────────────────────────────┐
     |         Compute kappa and kappa'         |
@@ -222,13 +222,13 @@ python3 compute_kappas.py -d data/ecc_traces_l3_1.h5 -t data
     
 Successfully processed 100 entries.
 ```
-This will generate two new files `inputs_kappa.npy` and `inputs_kappaP.npy` in the directory `data`.
+This will generate two new files `inputs_kappa.npy` and `inputs_kappaP.npy` in the directory `test_level3-1`.
 
 **Step 2: Splitting & Resynchronization**
 
 Given the fact that all our inputs are ready now, we split each scalar multiplication trace into 254 subtraces corresponding to the 254 iterations of each scalar multiplication, discard the first and last due to some specificities of these iterations and apply an additional filtering step for subtraces that are not aligned enough.
 ```
-python3 splitting.py -d data/ecc_traces_l3_1.h5 -t data -r
+python3 splitting.py -d test_level3-1/ipecc_level_3-1_part_0.h5 -t test_level3-1 -r
 
     ┌──────────────────────────────────────────┐
     |             Split and Resync             |
@@ -237,7 +237,7 @@ python3 splitting.py -d data/ecc_traces_l3_1.h5 -t data -r
 Writing patterns 
 Writing patterns 14131/14131
 ```
-This generates a file in the `data` directory (option `-t`), named `subtraces.h5`, which corresponds to the sub-traces of the scalar multiplication iterations and their corresponding inputs. 
+This generates a file in the `test_level3-1` directory (option `-t`), named `subtraces.h5`, which corresponds to the sub-traces of the scalar multiplication iterations and their corresponding inputs. 
 
 At the end of the script execution, you can notice the final subtraces number.
 
@@ -245,7 +245,7 @@ If you want to visualize the traces that you resynchronized (or any traces from 
 For instance, to view the resynchronized sub-traces from the second to the sixth (5 traces starting from offset 1), we can perform the following :
 
 ```bash
-python3 plot_traces.py -f data/subtraces.h5 -d subtraces -n 5 -o 1
+python3 plot_traces.py -f test_level3-1/subtraces.h5 -n 5 -o 1
 ```
 This will create the PNG file `traces` in the local directory with the corresponding plot. 
 <div style="width:75%; text-align: center; margin:auto;"> <img src="img/traces.png"> </div>
@@ -255,7 +255,7 @@ This will create the PNG file `traces` in the local directory with the correspon
 At this step, we will perform leakage assessment on each on the input bits.
 
 ```
-python3 compute_snr.py -d data/subtraces.h5 -o data
+python3 compute_snr.py -d test_level3-1/subtraces.h5 -o data
 
     ┌──────────────────────────────────────────┐
     |             SNR based on SCALib          |
@@ -287,7 +287,7 @@ Finally, given the SNR results, we perform a template attack on the inputs that 
 3. Finally, using these results, we predict the inputs of the testing subset, and compute our success rate (as the accuracy of the prediction)
 
 ```
-python3 template-attack.py -d data/subtraces.h5 -i kappa_prime -t 0.0009
+python3 template-attack.py -d test_level3-1/subtraces.h5 -i kappa_prime -t 0.0009
 
     ┌──────────────────────────────────────────┐
     |      Template attacks using SCALib       |
