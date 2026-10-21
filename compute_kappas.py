@@ -112,5 +112,5 @@ if __name__ == "__main__":
 
         print(f"Successfully processed {phi.shape[0]} entries.")
 
-     except ValueError as err:
+    except ValueError as err:
         sys.exit(f"Error: {err}")
