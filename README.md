@@ -9,7 +9,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 </div>
 
 ## Contents
-- [Requirements](#Requirements)
+- [Requirements](#requirements)
 - [Quickstart](#quickstart)
 - [Setup](#setup)
 - [Datasets Details](#datasets-details)
@@ -27,6 +27,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 ### Native Installation
 <p align="justify">
 To run the provided scripts, you need a computer running Linux (tested with Debian X / Ubuntu 24.04 LTS and 26.04 LTS) or MacOS (tested with MacOS TAHOE 26.6.2) and Python version >= 3.13. Furthermore, you need to install the following packages:
+To run the provided scripts, you need a computer running Linux (tested with Debian X / Ubuntu 24.04 LTS and 26.04 LTS) or MacOS (tested with MacOS TAHOE 26.6.2) and Python version >= 3.13. Furthermore, you need to install the following packages:
 </p>
 
 **Linux**
@@ -35,7 +36,7 @@ sudo apt install git python3 pip wget
 ```
 
 **MacOS**
-```zsh
+```bash
 brew install git python3 wget hdf5
 ``` 
 
@@ -55,7 +56,7 @@ Otherwise, if you wish to dig deeper into the details of this work, please take 
 
 ### Native way
 <p align="justify">
-The script <code>test_all_scripts_level3-1.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts using them directly. All you need is to run the following shell commands:
+The script <code>test_all_scripts_level3-1.sh</code> is an all-in-one script which installs the required dependencies, downloads the two first subsets of the dataset corresponding to <a href="#level3-1">Level 3.1</a>, and runs the SCA scripts using them directly. All you need is to run the following shell commands:
 </p>
 
 **Linux**
@@ -66,7 +67,7 @@ bash test_all_scripts_level3-1.sh
 ```
 
 **MacOS**
-```zsh
+```bash
 git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
 zsh test_all_scripts_level3-1.sh
@@ -115,7 +116,7 @@ A cell with a green checkmark (✅) conveys that the corresponding countermeasur
 
 | Level/Countermeasure | XY Shuffling | Shift Register | Memory Shuffling |
 |:--------------------:|:------------:|:--------------:|:----------------:|
-|       Level 1.0      |              |       ❌       |                  |
+|       <a id="level1-0"></a>Level 1.0      |              |       ❌       |                  |
 |       Level 1.1      |      ✅      |       ❌       |                  |
 |       Level 1.3      |      ✅      |       ❌       |        ✅        |
 |       Level 2.0      |              |                |                  |
@@ -123,7 +124,7 @@ A cell with a green checkmark (✅) conveys that the corresponding countermeasur
 |       Level 2.2      |      ✅      |       ✅       |                  |
 |       Level 2.3      |      ✅      |       ✅       |        ✅        |
 |       Level 3.0      |              |                |                  |
-|       Level 3.1      |      ✅      |                |                  |
+|       <a id="level3-1"></a>Level 3.1      |      ✅      |                |                  |
 |       Level 3.2      |      ✅      |       ✅       |                  |
 |       Level 3.3      |      ✅      |       ✅       |        ✅        |
 
@@ -131,9 +132,9 @@ A cell with a green checkmark (✅) conveys that the corresponding countermeasur
 
 
 Each provided dataset contains information about the setup, and for each scalar multiplication:
-- the corresponding X affine coordinate value of a random point P,
-- the corresponding Y affine coordinate value of a random point P,
-- the corresponding k scalar value of $k.P$,
+- the corresponding $X$ affine coordinate value of a random point $P$,
+- the corresponding $Y$ affine coordinate value of a random point $P$,
+- the corresponding $k$ scalar value of $k.P$,
 - the corresponding $\phi$ value,
 - the corresponding scalar multiplication EM trace,
 
@@ -144,7 +145,7 @@ The content is detailed in the notebook `1_dataset_presentation.ipynb`.
 ## Dataset Access
 
 <p align="justify">
-As each of the 11 datasets contains 900 traces of length 150 million samples stored as int16, one dataset has a size of ~270GB. To facilitate their download, each one is split in 9 subsets encompassing 100 traces (with their corresponding inputs). You can execute the SCA flow on one or several subsets of one dataset.
+As each of the 11 datasets contains 900 traces of length 150 million samples stored as <code>int16</code>, one dataset has a size of ~270GB. To facilitate their download, each one is split in 9 subsets encompassing 100 traces (with their corresponding inputs). You can execute the SCA flow on one or several subsets of one dataset.
 </p>
 
 ---
@@ -158,14 +159,14 @@ To download a specific dataset subset, you can use the bash oneliner :
 wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_<X>-<Y>_part_<N>.tar.zst
 ```
 
-For example, to download the first subset of the dataset level 1-0 (only the first 100 inputs and traces of that dataset), you can use the following bash command:
+For example, to download the first subset of the dataset [Level 1.0](#level1-0) (only the first 100 inputs and traces of that dataset), you can use the following bash command:
 ```bash
 wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_1-0_part_0.tar.zst  
 ```
 
 To download all the subsets of one or several dataset(s), you can use the following bash commands:
 ```bash
-# download the 9 subsets of level 1-0 dataset at once:
+# download the 9 subsets of Level 1.0 dataset at once:
 wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_1-0_part_{0..8}.tar.zst
 
 # download the 9 subsets of each of the three level 1 datasets at once:
@@ -192,7 +193,7 @@ printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -I zstd -xf
 (`-xf` extracts the archive file, `-I` selects the compression method but might not be supported on MacOS )
 
 - MacOS 
-```zsh
+```bash
 tar -xf ipecc_level_X-Y_part_N.tar.zst
 
 # To decompress several datasets at once
@@ -207,7 +208,7 @@ The dataset is an archive of type `.tar.zstd` (compressed with the [zstd](https:
 
 **Datasets Subsets Concatenation**
 
-If you wish to use several subsets of the same dataset, you can concatenate them into one virtual dataset via the command which you can use as argument in the following steps:
+If you wish to use several subsets of the same dataset, you can concatenate them into one virtual dataset which you can use as argument in the following steps:
 
 ```bash
 python3 link_datasets.py ipecc_level_1-0_part_0.h5 ipecc_level_1-0_part_1.h5 ... [-o out.h5]
@@ -223,7 +224,7 @@ bash sca-flow.sh <dataset> <dataset-directory>
 ```
 On a standard laptop, this script will run a couple of minutes before ending (using the provided parameters).
 
-If you want to customize the parameters, below is a complete example of usage for each script.
+If you want to customize the parameters, [the section Demonstration](#demonstration) encompasses a complete example of usage for each script.
 
 ### Docker Usage
 If you wish to use Docker, upon downloading (and concatenating) the datasets, please run the following command (and replace `<absolute-path-of-dataset-directory>` and `<dataset-name>` with the absolute path of the local dataset directory and the dataset filename respectively): 
