@@ -45,7 +45,7 @@ Otherwise, if you wish to dig deeper into the details of this work, please take 
 
 
 ## Setup
-You will need to install the required Python libraries, namely `qECUtils`, `H5Py`, `Jupyter`, `NumPy`, `Matplotlib` and `SCALib`.
+You will need to install the required Python libraries, namely `ECUtils`, `H5Py`, `Jupyter`, `NumPy`, `Matplotlib` and `SCALib`.
 <!-- </p> -->
 
 **Linux & macOS**
