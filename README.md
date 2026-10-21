@@ -226,10 +226,10 @@ On a standard laptop, this script will run a couple of minutes before ending (us
 If you want to customize the parameters, below is a complete example of usage for each script.
 
 ### Docker Usage
-If you wish to use Docker, upon downloading (and concatenating) the datasets, please run the following command (and replace `<dataset-directory>` and `<dataset-name>` with the local dataset directory and the dataset filename respectively): 
+If you wish to use Docker, upon downloading (and concatenating) the datasets, please run the following command (and replace `<absolute-path-of-dataset-directory>` and `<dataset-name>` with the absolute path of the local dataset directory and the dataset filename respectively): 
 
 ```bash
- docker build -t ipecc . && docker run  -v <dataset-directory>:/datasets ipecc  /datasets/<dataset-name> /datasets/
+ docker build -t ipecc . && docker run  -v <absolute-path-of-dataset-directory>:/datasets ipecc  /datasets/<dataset-name> /datasets/
 ```
 
 ### Notebooks

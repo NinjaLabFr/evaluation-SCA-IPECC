@@ -25,4 +25,4 @@ python3 ../link_datasets.py ipecc_level_3-1_part_{0,1}.h5
 
 # running SCA flow
 cd ..
-docker build -t ipecc . && docker run  -v test_level3-1:/datasets ipecc  /datasets/ipecc_level_3-1_parts_0-1-combined.h5 /datasets/
+docker build -t ipecc . && docker run  -v "$(pwd)/test_level3-1":/datasets ipecc  /datasets/ipecc_level_3-1_parts_0-1-combined.h5 /datasets/
