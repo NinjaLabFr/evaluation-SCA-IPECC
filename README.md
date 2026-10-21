@@ -21,7 +21,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 
 ## Quickstart
 <p align="justify">
-If you wish to directly test the scripts, the `sca_flow_complete.sh` installs the required dependencies, downloads two datasets corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following bash commands:
+If you wish to directly test the scripts, the `sca_flow_complete.sh` installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following bash commands:
 </p>
 
 ```bash
@@ -32,7 +32,10 @@ bash test_all_scripts_level3-1.sh
 Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
 
 >[!NOTE]
->To run the provided scripts, you need a computer running Linux or MacOS with at least 100GB of free disk space, and Python version being at least 3.9. 
+>To run the provided scripts, you need a computer running Linux or MacOS and Python version being at least 3.9.
+
+>[!NOTE]
+> To run the script `sca_flow_complete.sh`, you need at least 140GB of free disk space. More generally, if you download, untar and run the SCA flow on X subsets, you will need at least X.70GB of free disk space.
 
 
 
