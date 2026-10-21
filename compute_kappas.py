@@ -95,8 +95,9 @@ if __name__ == "__main__":
     if not os.path.exists(args.dataset):
         raise FileNotFoundError(f"{args.dataset} not found!")
 
+    # Check file type is HDF5
     if not args.dataset.endswith('.h5'):
-        raise ValueError("Error: dataset file is not a HDF5 file!")
+        raise ValueError(f"Error: dataset file {args.dataset} is not a HDF5 file!")
 
     with h5py.File(args.dataset, "r") as file_handler:
         if not "scalar" in file_handler["inputs"]:
