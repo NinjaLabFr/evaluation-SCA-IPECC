@@ -4,7 +4,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 </p>
 
 <div align="center">
-<p> Datasets available via<p>
+<p> Datasets available via:<p>
 <a href="https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027"><img src="https://img.shields.io/badge/ASCAD_IPECC-FFFFFF" alt="ASCAD IPECC"></a>
 </div>
 
@@ -21,22 +21,20 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 - [Features](#features)
 - [Demonstration](#demonstration)
 
-
-
 <!-- <p align="justify"> -->
 
 ## Requirements
 <p align="justify">
-To run the provided scripts, you need a computer running Linux (tested with Debian / Ubuntu) or MacOS and Python version being at least 3.13. Furthermore, you need to install the following packages:
+To run the provided scripts, you need a computer running Linux (tested with Debian X / Ubuntu 24.04 LTS and 26.04 LTS) or MacOS (tested with MacOS TAHOE 26.6.2) and Python version being at least 3.13. Furthermore, you need to install the following packages:
 </p>
 
-- Linux
+**Linux**
 ```bash
 sudo apt install git python3 pip wget
 ```
 
-- MacOS 
-```bash
+**MacOS**
+```zsh
 brew install git python3 wget hdf5
 ``` 
 
@@ -44,14 +42,23 @@ brew install git python3 wget hdf5
 
 ## Quickstart
 <p align="justify">
-If you wish to directly test the scripts, the <code>test_all_scripts_level3-1.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts using them directly. All you need is to run the following bash commands:
+If you wish to directly test the scripts, the script <code>test_all_scripts_level3-1.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts using them directly. All you need is to run the following shell commands:
 </p>
 
+**Linux**
 ```bash
 git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
 bash test_all_scripts_level3-1.sh
 ```
+
+**MacOS**
+```zsh
+git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
+cd evaluation-SCA-IPECC
+zsh test_all_scripts_level3-1.sh
+```
+
 Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
 
 >[!NOTE]
@@ -161,7 +168,7 @@ printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -I zstd -xf
 (`-xf` extracts the archive file, `-I` selects the compression method but might not be supported on MacOS )
 
 - MacOS 
-```bash
+```zsh
 tar -xf ipecc_level_X-Y_part_N.tar.zst
 
 # To decompress several datasets at once
