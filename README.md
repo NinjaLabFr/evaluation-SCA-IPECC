@@ -24,9 +24,34 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 
 <!-- <p align="justify"> -->
 
+## Requirements
+<p align="justify">
+To run the provided scripts, you need a computer running Linux or MacOS and Python version being at least 3.13. Furthermore, you need to install the following packages:
+</p>
+
+- Linux - Debian / Ubuntu
+```bash
+sudo apt install git python3 pip wget
+```
+
+- MacOS 
+```bash
+brew install git python3 wget hdf5
+``` 
+
+(`-xf` extracts the archive file, `-I` selects the compression method but might not be supported on MacOS )
+
+- MacOS 
+```bash
+tar -xf ipecc_level_X-Y_part_N.tar.zst
+
+# To decompress several datasets at once
+printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -xf
+```
+
 ## Quickstart
 <p align="justify">
-If you wish to directly test the scripts, the <code>sca_flow_complete.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following bash commands:
+If you wish to directly test the scripts, the <code>test_all_scripts_level3-1.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following bash commands:
 </p>
 
 ```bash
@@ -37,10 +62,7 @@ bash test_all_scripts_level3-1.sh
 Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
 
 >[!NOTE]
->To run the provided scripts, you need a computer running Linux or MacOS and Python version being at least 3.9.
-
->[!NOTE]
-> To run the script `sca_flow_complete.sh`, you need at least 140GB of free disk space. More generally, if you download, untar and run the SCA flow on X subsets, you will need at least X.70GB of free disk space.
+> To run the script `test_all_scripts_level3-1.sh`, you need at least 140GB of free disk space. More generally, if you download, untar and run the SCA flow on X subsets, you will need at least X.70GB of free disk space.
 
 
 
