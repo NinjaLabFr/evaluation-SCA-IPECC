@@ -10,10 +10,14 @@ pip install -r ../requirements.txt
 
 # downloading and decompressing two parts of the dataset level 3.1
 wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_3-1_part_{0,1}.tar.zst
-if [`uname -s` -eq "Linux"]
+
+if [[ $(uname -s) == "Linux" ]]; then
 	printf "%s " ipecc_level_3-1_part_{0,1}.tar.zst | xargs -n 1 tar -I zstd -xf
-else
+elif [[ $(uname -s) == "Darwin" ]]; then
 	printf "%s " ipecc_level_3-1_part_{0,1}.tar.zst | xargs -n 1 tar -xf
+else 
+	echo "Please run this script on Linux or MacOS" 
+	exit 1
 fi;
 
 # creating the virtual dataset which combines the subsets
