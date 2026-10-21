@@ -3,6 +3,10 @@
 Collection of scripts to perform a complete side-channel analysis flow on IPECC electromagnetic (EM) traces, based on the open-source library <a href="https://scalib.readthedocs.io/">SCALib</a>, related to the research paper <b>IPECC: an Open-Source Side-Channel Resistant ECC Hardware Accelerator</b>, published in the journal TCHES 2027 issue 1.
 </p>
 
+<div align="center">
+<p> Datasets available via <a href="https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027"><img src="https://img.shields.io/badge/ASCAD_IPECC-FFFFFF" alt="ASCAD IPECC"></a><p>
+</div>
+
 ## Contents
 - [Quickstart](#quickstart)
 - [Setup](#setup)
@@ -21,7 +25,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 
 ## Quickstart
 <p align="justify">
-If you wish to directly test the scripts, the `sca_flow_complete.sh` installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following bash commands:
+If you wish to directly test the scripts, the <code>sca_flow_complete.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following bash commands:
 </p>
 
 ```bash

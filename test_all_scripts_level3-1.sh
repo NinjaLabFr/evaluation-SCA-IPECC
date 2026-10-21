@@ -8,9 +8,13 @@ cd $dir
 python3 -m venv IPECCenv && source IPECCenv/bin/activate
 pip install -r ../requirements.txt
 
-# downloading and decompressing two parts of the dataset level 3.1
-wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_3-1_part_{0,1}.tar.zst
+# downloading two parts of the dataset level 3.1
+for i in 0 1; do
+    dataset="ipecc_level_3-1_part_${i}.tar.zst"
+    [[ -f "$dataset" ]] && echo "$dataset exists, skipping the download." || wget "https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/$dataset"
+done
 
+# decompressing
 if [[ $(uname -s) == "Linux" ]]; then
 	printf "%s " ipecc_level_3-1_part_{0,1}.tar.zst | xargs -n 1 tar -I zstd -xf
 elif [[ $(uname -s) == "Darwin" ]]; then
