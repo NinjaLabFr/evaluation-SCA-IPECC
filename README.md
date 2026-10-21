@@ -23,9 +23,10 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 
 <!-- <p align="justify"> -->
 
-## Requirements
+## Requirements 
+### Native Installation
 <p align="justify">
-To run the provided scripts, you need a computer running Linux (tested with Debian X / Ubuntu 24.04 LTS and 26.04 LTS) or MacOS (tested with MacOS TAHOE 26.6.2) and Python version being at least 3.13. Furthermore, you need to install the following packages:
+To run the provided scripts, you need a computer running Linux (tested with Debian X / Ubuntu 24.04 LTS and 26.04 LTS) or MacOS (tested with MacOS TAHOE 26.6.2) and Python version >= 3.13. Furthermore, you need to install the following packages:
 </p>
 
 **Linux**
@@ -38,11 +39,23 @@ sudo apt install git python3 pip wget
 brew install git python3 wget hdf5
 ``` 
 
+### Docker
+
+If you would like to test the scripts using Docker, ensure you have `wget` (to download the datasets) and Docker installed and running (by following [Docker official documentation](https://docs.docker.com/engine/install/)). 
+
 
 
 ## Quickstart
+If you wish to directly test the scripts, you can achieve that using the following.
+Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
+
+
+>[!NOTE]
+> You need at least 140GB of free disk space. More generally, if you download, decompress and run the SCA flow on $n$ subsets of one dataset, you will need at least $n \times 70GB$ of free disk space.
+
+### Native way
 <p align="justify">
-If you wish to directly test the scripts, the script <code>test_all_scripts_level3-1.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts using them directly. All you need is to run the following shell commands:
+The script <code>test_all_scripts_level3-1.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts using them directly. All you need is to run the following shell commands:
 </p>
 
 **Linux**
@@ -58,16 +71,26 @@ git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
 zsh test_all_scripts_level3-1.sh
 ```
+### Docker
 
-Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
+**Linux**
+```bash
+git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
+cd evaluation-SCA-IPECC
+bash test_all_scripts_level3-1_docker.sh
+```
 
->[!NOTE]
-> To run the script `test_all_scripts_level3-1.sh`, you need at least 140GB of free disk space. More generally, if you download, decompress and run the SCA flow on $n$ subsets of one dataset, you will need at least $n \times 70GB$ of free disk space.
+**MacOS**
+```zsh
+git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
+cd evaluation-SCA-IPECC
+zsh test_all_scripts_level3-1_docker.sh
+```
 
 
 
 ## Setup
-You will need to install the required Python libraries, namely `ECUtils`, `H5Py`, `Jupyter`, `NumPy`, `Matplotlib` and `SCALib`.
+You will need to install the required Python libraries, namely `ECUtils`, `H5Py`, `Jupyter`, `NumPy`, `Matplotlib` and `SCALib`. 
 <!-- </p> -->
 
 **Linux & macOS**
@@ -76,6 +99,7 @@ python3 -m venv IPECCenv && source IPECCenv/bin/activate
 pip install -r requirements.txt
 ```
 
+Otherwise, if you prefer using Docker, refer to [this section](#docker-usage).
 
 ## Datasets Details
 
@@ -126,7 +150,7 @@ As each of the 11 datasets contains 900 traces of length 150 million samples sto
 ---
 **Dataset Download**
 
-You can test the scripts against (one of) the datasets available via [this link](https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027) 
+You can test the scripts against (one of) the datasets available via [this link](https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027).
 
 To download a specific dataset subset, you can use the bash oneliner :
 ```bash
@@ -191,14 +215,24 @@ python3 link_datasets.py ipecc_level_1-0_part_0.h5 ipecc_level_1-0_part_1.h5 ...
 
 
 ## Usage
+
+### Native Usage
 The script `sca-flow.sh` runs an example flow of the scripts. You can use the command 
 ```
 bash sca-flow.sh <dataset> <dataset-directory>
 ```
 On a standard laptop, this script will run a couple of minutes before ending (using the provided parameters).
 
-If you want to customize the parameters, below is a complete example of usage of each script.
+If you want to customize the parameters, below is a complete example of usage for each script.
 
+### Docker Usage
+If you wish to use Docker, upon downloading (and concatenating) the datasets, please run the following command (and replace `<dataset-directory>` and `<dataset-name>` with the local dataset directory and the dataset filename respectively): 
+
+```bash
+ docker build -t ipecc . && docker run  -v <dataset-directory>:/datasets ipecc  /datasets/<dataset-name> /datasets/
+```
+
+### Notebooks
 You can also refer to the two following notebooks:
   - `1_dataset_presentation.ipynb` presenting the dataset structure and content,
   - `2_template_attack_on_kappas.ipynb` which is a verbose version of `sca-flow.sh`.
@@ -208,8 +242,6 @@ Just launch from the virtual environment
 jupyter notebook
 ```
 and select the notebook in the opened browser.
-
-
 
 
 <br>
