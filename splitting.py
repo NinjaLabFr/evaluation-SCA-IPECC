@@ -236,7 +236,7 @@ def extract_subtraces(
 
             # dynamic counter
             if progression:
-                print(f"\rWriting patterns {write_ptr}/{total_subtraces}", end="")
+                print(f"\rWriting subtraces {write_ptr}/{total_subtraces}", end="")
 
     h5file.close()
     print()
