@@ -25,7 +25,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 
 ## Requirements
 <p align="justify">
-To run the provided scripts, you need a computer running Linux (tested with Debian X / Ubuntu 24.04 LTS and 26.04 LTS) or MacOS (tested with MacOS TAHOE 26.6.2) and Python version being at least 3.13. Furthermore, you need to install the following packages:
+To run the provided scripts, you need a computer running Linux (tested with Debian X / Ubuntu 24.04 LTS and 26.04 LTS) or MacOS (tested with MacOS TAHOE 26.6.2) and Python version >= 3.13. Furthermore, you need to install the following packages:
 </p>
 
 **Linux**
@@ -34,7 +34,7 @@ sudo apt install git python3 pip wget
 ```
 
 **MacOS**
-```zsh
+```bash
 brew install git python3 wget hdf5
 ``` 
 
@@ -53,7 +53,7 @@ bash test_all_scripts_level3-1.sh
 ```
 
 **MacOS**
-```zsh
+```bash
 git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
 zsh test_all_scripts_level3-1.sh
@@ -168,7 +168,7 @@ printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -I zstd -xf
 (`-xf` extracts the archive file, `-I` selects the compression method but might not be supported on MacOS )
 
 - MacOS 
-```zsh
+```bash
 tar -xf ipecc_level_X-Y_part_N.tar.zst
 
 # To decompress several datasets at once
@@ -197,7 +197,7 @@ bash sca-flow.sh <dataset> <dataset-directory>
 ```
 On a standard laptop, this script will run a couple of minutes before ending (using the provided parameters).
 
-If you want to customize the parameters, below is a complete example of usage of each script.
+If you want to customize the parameters, [the section Demonstration](#demonstration) is a complete example of usage of each script.
 
 You can also refer to the two following notebooks:
   - `1_dataset_presentation.ipynb` presenting the dataset structure and content,
