@@ -34,7 +34,7 @@ sudo apt install git python3 pip wget
 ```
 
 **MacOS**
-```bash
+```zsh
 brew install git python3 wget hdf5
 ``` 
 
@@ -42,14 +42,23 @@ brew install git python3 wget hdf5
 
 ## Quickstart
 <p align="justify">
-If you wish to directly test the scripts, the <code>test_all_scripts_level3-1.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following bash commands:
+If you wish to directly test the scripts, the script <code>test_all_scripts_level3-1.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following shell commands:
 </p>
 
+**Linux**
 ```bash
 git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
 bash test_all_scripts_level3-1.sh
 ```
+
+**MacOS**
+```zsh
+git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
+cd evaluation-SCA-IPECC
+zsh test_all_scripts_level3-1.sh
+```
+
 Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
 
 >[!NOTE]
@@ -159,7 +168,7 @@ printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -I zstd -xf
 (`-xf` extracts the archive file, `-I` selects the compression method but might not be supported on MacOS )
 
 - MacOS 
-```bash
+```zsh
 tar -xf ipecc_level_X-Y_part_N.tar.zst
 
 # To decompress several datasets at once
