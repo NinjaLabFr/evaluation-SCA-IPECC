@@ -95,22 +95,21 @@ if __name__ == "__main__":
     if not os.path.exists(args.dataset):
         raise FileNotFoundError(f"{args.dataset} not found!")
 
-    try: 
-        with h5py.File(args.dataset, "r") as file_handler:
-            if not "scalar" in file_handler["inputs"]:
-                raise ValueError("Error: dataset inputs/scalar not found in the file!")
-            if not "phi" in file_handler["inputs"]:
-                raise ValueError("Error: dataset inputs/phi not found in the file!")
+    if not args.dataset.endswith('.h5'):
+        raise ValueError("Error: dataset file is not a HDF5 file!")
 
-            k = file_handler["inputs/scalar"]
-            phi = file_handler["inputs/phi"]
+    with h5py.File(args.dataset, "r") as file_handler:
+        if not "scalar" in file_handler["inputs"]:
+            raise ValueError("Error: dataset inputs/scalar not found in the file!")
+        if not "phi" in file_handler["inputs"]:
+            raise ValueError("Error: dataset inputs/phi not found in the file!")
 
-            kappas, kappaPs = compute_kappas(k, phi)
+        k = file_handler["inputs/scalar"]
+        phi = file_handler["inputs/phi"]
 
-        np.save(os.path.join(args.temp_dir, "inputs_kappa.npy"), kappas)
-        np.save(os.path.join(args.temp_dir, "inputs_kappaP.npy"), kappaPs)
+        kappas, kappaPs = compute_kappas(k, phi)
 
-        print(f"Successfully processed {phi.shape[0]} entries.")
+    np.save(os.path.join(args.temp_dir, "inputs_kappa.npy"), kappas)
+    np.save(os.path.join(args.temp_dir, "inputs_kappaP.npy"), kappaPs)
 
-    except ValueError as err:
-        sys.exit(f"Error: {err}")
+    print(f"Successfully processed {phi.shape[0]} entries.")
