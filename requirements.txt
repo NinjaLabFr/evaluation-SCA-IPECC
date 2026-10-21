@@ -1,0 +1,6 @@
+ecutils == 1.0.1
+h5py >= 3.12.1
+jupyter
+matplotlib
+numpy >= 2.0.0
+scalib >= 0.6.3

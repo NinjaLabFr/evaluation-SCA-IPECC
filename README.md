@@ -20,10 +20,13 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 <!-- <p align="justify"> -->
 
 ## Quickstart
-If you wish to directly test the scripts, the `sca_flow_complete.sh` installs the required dependencies, downloads two datasets corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following bash commands :
+<p align="justify">
+If you wish to directly test the scripts, the `sca_flow_complete.sh` installs the required dependencies, downloads two datasets corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following bash commands:
+</p>
+
 ```bash
-git clone .. 
-cd 
+git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
+cd evaluation-SCA-IPECC
 bash test_all_scripts_level3-1.sh
 ```
 Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
