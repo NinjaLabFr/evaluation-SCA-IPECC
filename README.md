@@ -4,7 +4,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 </p>
 
 <div align="center">
-<p> Datasets available via<p>
+<p> Datasets available via:<p>
 <a href="https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027"><img src="https://img.shields.io/badge/ASCAD_IPECC-FFFFFF" alt="ASCAD IPECC"></a>
 </div>
 
@@ -21,21 +21,19 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 - [Features](#features)
 - [Demonstration](#demonstration)
 
-
-
 <!-- <p align="justify"> -->
 
 ## Requirements
 <p align="justify">
-To run the provided scripts, you need a computer running Linux (tested with Debian X / Ubuntu 24.04 LTS - 26.04 LTS) or MacOS (TAHOE 26.6.2) and Python version being at least 3.13. Furthermore, you need to install the following packages:
+To run the provided scripts, you need a computer running Linux (tested with Debian X / Ubuntu 24.04 LTS and 26.04 LTS) or MacOS (tested with MacOS TAHOE 26.6.2) and Python version being at least 3.13. Furthermore, you need to install the following packages:
 </p>
 
-- Linux
+**Linux**
 ```bash
 sudo apt install git python3 pip wget
 ```
 
-- MacOS 
+**MacOS**
 ```bash
 brew install git python3 wget hdf5
 ``` 
