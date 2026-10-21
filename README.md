@@ -141,8 +141,13 @@ tar -xf ipecc_level_X-Y_part_N.tar.zst
 > **Note for MacOS users :** If `zstd` format is not recognized on your machine when decompressing, you can install it using `brew install zstd`
 
 ```bash 
-# To decompress several datasets at once, you may use the following command 
+# To decompress several datasets at once, you may use the following command on Linux:
 printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -I zstd -xf
+```
+
+```bash 
+# To decompress several datasets at once, you may use the following command on MacOS:
+printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -xf
 ```
 
 The dataset is an archive of type `.tar.zstd` (compressed with the [zstd](https://facebook.github.io/zstd/) tool) with a unique `ipecc_level_<X>-<Y>_part_<N>.h5` file inside.
