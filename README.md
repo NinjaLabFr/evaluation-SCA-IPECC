@@ -9,6 +9,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 </div>
 
 ## Contents
+- [Requirements](#Requirements)
 - [Quickstart](#quickstart)
 - [Setup](#setup)
 - [Datasets Details](#datasets-details)
@@ -39,15 +40,7 @@ sudo apt install git python3 pip wget
 brew install git python3 wget hdf5
 ``` 
 
-(`-xf` extracts the archive file, `-I` selects the compression method but might not be supported on MacOS )
 
-- MacOS 
-```bash
-tar -xf ipecc_level_X-Y_part_N.tar.zst
-
-# To decompress several datasets at once
-printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -xf
-```
 
 ## Quickstart
 <p align="justify">
