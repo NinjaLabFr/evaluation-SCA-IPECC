@@ -11,7 +11,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 ## Contents
 - [Quickstart](#quickstart)
 - [Setup](#setup)
-- [Datasets Details](#dataset-details)
+- [Datasets Details](#datasets-details)
 - [Dataset Access](#dataset-access)
     - [Dataset Download](#dataset-download)
     - [Dataset Decompression](#dataset-decompression)
