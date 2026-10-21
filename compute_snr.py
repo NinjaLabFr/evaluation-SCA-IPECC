@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
     # Load data
     if not os.path.exists(args.dataset):
-        raise FileNotFoundError(f"{args.dataset} not found!")
+        raise FileNotFoundError(f"Error: {args.dataset} not found!")
 
     h5file = h5py.File(args.dataset, "r")
 

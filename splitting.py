@@ -281,18 +281,18 @@ if __name__ == "__main__":
 
     # Load data
     if not os.path.exists(args.dataset):
-        raise FileNotFoundError(f"{args.dataset} not found!")
+        raise FileNotFoundError(f"Error: {args.dataset} not found!")
 
     kappas = np.load(os.path.join(args.temp_dir, "inputs_kappa.npy"))
     kappaPs = np.load(os.path.join(args.temp_dir, "inputs_kappaP.npy"))
 
     with h5py.File(args.dataset, "r") as file_handler:
         if not "em_curves" in file_handler:
-            raise ValueError("Dataset em_curves not found in the file!")
+            raise ValueError("Error: dataset em_curves not found in the file!")
         if not "scalar" in file_handler["inputs"]:
-            raise ValueError("Dataset inputs/scalar not found in the file!")
+            raise ValueError("Error: dataset inputs/scalar not found in the file!")
         if not "phi" in file_handler["inputs"]:
-            raise ValueError("Dataset inputs/phi not found in the file!")
+            raise ValueError("Error: dataset inputs/phi not found in the file!")
 
         # listing relevant inputs to store wih the subtraces
         inputs = {

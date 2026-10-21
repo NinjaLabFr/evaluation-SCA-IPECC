@@ -106,7 +106,7 @@ def main():
     try:
         run(args)
     except ValueError as err:
-        sys.exit(f"error: {err}")
+        sys.exit(f"Error: {err}")
 
 
 if __name__ == "__main__":

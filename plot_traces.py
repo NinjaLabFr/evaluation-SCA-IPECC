@@ -167,36 +167,41 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--offset", default=0, type=int, help="Start offset.")
     args = parser.parse_args()
 
-    with h5py.File(args.file, "r") as file_handler:
-        start = args.offset
-        end = args.offset + args.num
+    try:
+        with h5py.File(args.file, "r") as file_handler:
+            start = args.offset
+            end = args.offset + args.num
 
-        try:
-            dataset = file_handler["em_curves"]
-        except:
             try:
-                dataset = file_handler["subtraces"]
+                dataset = file_handler["em_curves"]
             except:
-                print(f"Error: .h5 file {args.file} does not contain any dataset with trace(s) to plot. Exiting ...")
-                sys.exit(-1)
+                try:
+                    dataset = file_handler["subtraces"]
+                except:
+                    print(f"Error: .h5 file {args.file} does not contain any dataset with trace(s) to plot. Exiting ...")
+                    sys.exit(-1)
 
-        if end > dataset.shape[0]:
-            print(
-                f"[ERROR] Requested traces {start}..{end-1}, "
-                f"but file contains only {traces.shape[0]}.",
-                file=sys.stderr,
+            if end > dataset.shape[0]:
+                print(
+                    f"[ERROR] Requested traces {start}..{end-1}, "
+                    f"but file contains only {traces.shape[0]}.",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+
+            # set pastel ^^
+            pastel_cmap = plt.get_cmap("Set3")
+            plt.rcParams["axes.prop_cycle"] = plt.cycler(color=pastel_cmap.colors)
+            plot_global(
+                curves={
+                    f"trace_{i}": dataset[i] for i in range(start, end)
+                },
+                output_filename="traces.png",
+                show_max=False,
+                title=f"Traces {start} to {end-1}",
+                figsize=(12, 5),
             )
-            sys.exit(1)
+    
+    except ValueError as err:
+        sys.exit(f"Error: {err}")
 
-        # set pastel ^^
-        pastel_cmap = plt.get_cmap("Set3")
-        plt.rcParams["axes.prop_cycle"] = plt.cycler(color=pastel_cmap.colors)
-        plot_global(
-            curves={
-                f"trace_{i}": dataset[i] for i in range(start, end)
-            },
-            output_filename="traces.png",
-            show_max=False,
-            title=f"Traces {start} to {end-1}",
-            figsize=(12, 5),
-        )

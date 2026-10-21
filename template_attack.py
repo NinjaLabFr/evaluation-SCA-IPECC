@@ -117,7 +117,7 @@ if __name__ == "__main__":
         "--input-target",
         type=str,
         required=True,
-        help="Name of the inpu we attack.",
+        help="Name of the input we attack.",
     )
     parser.add_argument(
         "-t",
@@ -131,7 +131,7 @@ if __name__ == "__main__":
 
     # Load data
     if not os.path.exists(args.dataset):
-        raise FileNotFoundError(f"{args.dataset} not found!")
+        raise FileNotFoundError(f"Error: {args.dataset} not found!")
 
     h5file = h5py.File(args.dataset, "r")
 
