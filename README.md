@@ -44,7 +44,7 @@ brew install git python3 wget hdf5
 
 ## Quickstart
 <p align="justify">
-If you wish to directly test the scripts, the <code>test_all_scripts_level3-1.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts on them directly. All you need is to run the following bash commands:
+If you wish to directly test the scripts, the <code>test_all_scripts_level3-1.sh</code> installs the required dependencies, downloads the two first subsets of the dataset corresponding to Level 3.1, and runs the SCA scripts using them directly. All you need is to run the following bash commands:
 </p>
 
 ```bash
@@ -55,7 +55,7 @@ bash test_all_scripts_level3-1.sh
 Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
 
 >[!NOTE]
-> To run the script `test_all_scripts_level3-1.sh`, you need at least 140GB of free disk space. More generally, if you download, untar and run the SCA flow on X subsets of one dataset, you will need at least X.70GB of free disk space.
+> To run the script `test_all_scripts_level3-1.sh`, you need at least 140GB of free disk space. More generally, if you download, decompress and run the SCA flow on $n$ subsets of one dataset, you will need at least $n \times 70GB$ of free disk space.
 
 
 
