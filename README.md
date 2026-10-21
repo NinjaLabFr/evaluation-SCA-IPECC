@@ -134,26 +134,26 @@ wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_{2,3}-{0..3}_part_{
 **Datasets Decompression**
 
 Once the dataset(s) downloaded, extract the content using the following (replace `X` , `Y` and `N` in the dataset name with the part which you downloaded):
+
+- Linux
 ```bash
-# Linux
 tar -I zstd -xf ipecc_level_X-Y_part_N.tar.zst 
 
-# MacOS
-tar -xf ipecc_level_X-Y_part_N.tar.zst
-```
+# To decompress several datasets at once
+printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -I zstd -xf
+``` 
+
 (`-xf` extracts the archive file, `-I` selects the compression method but might not be supported on MacOS )
 
-> **Note for MacOS users :** If `zstd` format is not recognized on your machine when decompressing, you can install it using `brew install zstd`
+- MacOS 
+```bash
+tar -xf ipecc_level_X-Y_part_N.tar.zst
 
-```bash 
-# To decompress several datasets at once, you may use the following command on Linux:
-printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -I zstd -xf
-```
-
-```bash 
-# To decompress several datasets at once, you may use the following command on MacOS:
+# To decompress several datasets at once
 printf "%s " ipecc_level_X-Y_part_{M,N}.tar.zst | xargs -n 1 tar -xf
 ```
+
+> **Note for MacOS users :** If `zstd` format is not recognized on your machine when decompressing, you can install it using `brew install zstd`
 
 The dataset is an archive of type `.tar.zstd` (compressed with the [zstd](https://facebook.github.io/zstd/) tool) with a unique `ipecc_level_<X>-<Y>_part_<N>.h5` file inside.
 
