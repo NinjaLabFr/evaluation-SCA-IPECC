@@ -27,10 +27,10 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 
 ## Requirements
 <p align="justify">
-To run the provided scripts, you need a computer running Linux or MacOS and Python version being at least 3.13. Furthermore, you need to install the following packages:
+To run the provided scripts, you need a computer running Linux (tested with Debian / Ubuntu) or MacOS and Python version being at least 3.13. Furthermore, you need to install the following packages:
 </p>
 
-- Linux - Debian / Ubuntu
+- Linux
 ```bash
 sudo apt install git python3 pip wget
 ```
