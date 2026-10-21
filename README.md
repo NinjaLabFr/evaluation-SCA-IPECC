@@ -320,7 +320,6 @@ Processing subtraces 11000:11305
 
 3. Predict 
 Processing subtraces 13305:14131
-
-Global success rate:  86.94% 
+Success rate: 86.91
 
 ```
