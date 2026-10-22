@@ -158,6 +158,8 @@ def extract_subtraces(
                 f"Argument nb_traces is to large (maximum {nb_traces_to_process})"
             )
 
+    print(f"Splitting {nb_traces_to_process} scalar multiplication traces into subtraces and resynchronizing them ...")
+
     # the extracted subtrace will be of size (at most) PATTERN_LEN
     SUBTRACE_LEN = 510_000
     # the peak whould correspond to the PEAK_OFFSET-th sample of a subtrace
@@ -185,7 +187,7 @@ def extract_subtraces(
 
     total_subtraces = 0
     write_ptr = 0
-    print("\n\033[94mWriting patterns \033[0m")
+    print("\n\033[94mWriting subtraces \033[0m")
     for i in range(nb_traces_to_process):
         trace = traces[i]
 

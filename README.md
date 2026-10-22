@@ -8,6 +8,8 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 <a href="https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027"><img src="https://img.shields.io/badge/ASCAD_IPECC-FFFFFF" alt="ASCAD IPECC"></a>
 </div>
 
+_**Authors :** Benoît GÉRARD, Malek SFAXI, Victor LOMNÉ_
+
 ## Contents
 - [Requirements](#requirements)
 - [Quickstart](#quickstart)
@@ -26,7 +28,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 ## Requirements 
 ### Native Installation
 <p align="justify">
-To run the provided scripts, you need a computer running Linux (tested with Debian X / Ubuntu 24.04 LTS and 26.04 LTS) or MacOS (tested with MacOS TAHOE 26.6.2) and Python version >= 3.13. Furthermore, you need to install the following packages:
+To run the provided scripts, you need a computer running Python3 on Linux (tested with Debian 13.7 / Ubuntu 24.04.5 LTS and 26.04.1 LTS with Python versions 3.10 to 3.14) or MacOS (tested with MacOS TAHOE 26.6.2 with Python version 3.15). Furthermore, you need to install the following packages:
 </p>
 
 **Linux**
@@ -51,7 +53,7 @@ Otherwise, if you wish to dig deeper into the details of this work, please take 
 
 
 >[!NOTE]
-> You need at least 140GB of free disk space. More generally, if you download, decompress and run the SCA flow on $n$ subsets of one dataset, you will need at least $n \times 70GB$ of free disk space.
+> You need at least $130GB$ of free disk space. More generally, if you download, decompress and run the SCA flow on $n$ subsets of one dataset, you will need at least $n \times 65GB$ of free disk space.
 
 ### Native way
 <p align="justify">
@@ -217,7 +219,7 @@ python3 link_datasets.py ipecc_level_1-0_part_0.h5 ipecc_level_1-0_part_1.h5 ...
 ## Usage
 
 ### Native Usage
-The script `sca-flow.sh` runs an example flow of the scripts. You can use the command 
+The script `sca-flow.sh` runs an example flow of the scripts. You can use the command:
 ```
 bash sca-flow.sh <dataset> <dataset-directory>
 ```
@@ -354,7 +356,7 @@ Finally, given the SNR results, we perform a template attack on the inputs that 
 3. Finally, using these results, we predict the inputs of the testing subset, and compute our success rate (as the accuracy of the prediction)
 
 ```
-python3 template-attack.py -d test_level3-1/subtraces.h5 -i kappa_prime -t 0.0009
+python3 template_attack.py -d test_level3-1/subtraces.h5 -i kappa_prime -t 0.0009
 
     ┌──────────────────────────────────────────┐
     |      Template attacks using SCALib       |

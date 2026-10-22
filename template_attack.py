@@ -1,6 +1,7 @@
 import h5py
 import numpy as np
 import os
+import sys
 from scalib.metrics import SNR
 from scalib.modeling import Lda, LdaAcc
 from compute_snr import compute_snr
@@ -8,10 +9,9 @@ from compute_snr import compute_snr
 
 def print_banner():
     header = r"""
-    ┌──────────────────────────────────────────┐
-    |      Template attacks using SCALib       |
-    ╰──────────────────────────────────────────╯                  
-      
+    ┌─────────────────────────────────────────┐
+    |      Template Attack using SCALib       |
+    ╰─────────────────────────────────────────╯
     """
     print(header)
 
@@ -27,7 +27,7 @@ def compute_success(prediction_probas, truth):
 
 def template_attack(
     file_handler: h5py.File,
-    input_target: int,
+    input_target: str,
     snr_threshold: float,
     learn_ratio: float = 0.8,
     chunk_size: int = 1000,
@@ -36,7 +36,7 @@ def template_attack(
 
     Args:
         file_handler (h5py.File): H5 file handler containing subtraces and the corresponding variables.
-        input_target (int): name of the target variable.
+        input_target (str): name of the target variable.
         snr_threshold (float): threshold on SNR to consider a point is of interest.
         learn_ratio (float, optional): proportion of learning traces in the dataset. Defaults to 0.8.
         chunk_size (int, optional): number of traces provided to SCALIB in a batch. Defaults to 1000.
@@ -52,7 +52,7 @@ def template_attack(
     predict_selection_idx = slice(round(nb_traces * learn_ratio), nb_traces)
 
     # SNR to select POIs
-    print("\n\033[94m1. Perform SNR (to select POIs) \033[0m")
+    print("\033[94m1. Perform SNR (to select POIs) \033[0m")
     snr_values = compute_snr(
         file_handler,
         nb_traces=train_selection_idx.stop - train_selection_idx.start,
@@ -61,10 +61,13 @@ def template_attack(
     )[input_target]
     pois = np.where(snr_values > snr_threshold)[0].tolist()
     print("POIs:", len(pois))
+    if(len(pois) == 0):
+        print("No POIs! Choose a smaller threshold and relaunch Template Attack. Exiting ...\n")
+        sys.exit(0)
     lda_acc = LdaAcc(nc=2, pois=[pois])
 
     # Build the template using SCALIB LDA (on profiling traces)
-    print("\n\n\033[94m2. Build templates \033[0m")
+    print("\n\033[94m2. Build templates \033[0m")
     for chunk_start in range(
         train_selection_idx.start, train_selection_idx.stop, chunk_size
     ):
@@ -104,7 +107,7 @@ if __name__ == "__main__":
     import argparse
 
     print_banner()
-    parser = argparse.ArgumentParser(description="LDA aka Template Attacks")
+    parser = argparse.ArgumentParser(description="LDA aka Template Attack")
     parser.add_argument(
         "-d",
         "--dataset",
@@ -133,7 +136,12 @@ if __name__ == "__main__":
     if not os.path.exists(args.dataset):
         raise FileNotFoundError(f"Error: {args.dataset} not found!")
 
+    # create file_handler
     h5file = h5py.File(args.dataset, "r")
+
+    # Check that input exists
+    if not args.input_target in ["scalar", "phi", "kappa", "kappa_prime"]:
+        raise ValueError("Error: unknown input-target. Should be either scalar / phi / kappa / kappa_prime!")
 
     sr = template_attack(
         file_handler=h5file, input_target=args.input_target, snr_threshold=args.threshold
@@ -141,4 +149,4 @@ if __name__ == "__main__":
 
     h5file.close()
 
-    print(f"\nGlobal success rate: \033[92m {sr:.2f}% \033[0m")
+    print(f"\nGlobal success rate: \033[92m {sr:.2f}% \033[0m\n")
