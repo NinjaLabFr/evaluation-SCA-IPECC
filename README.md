@@ -8,7 +8,7 @@ Collection of scripts to perform a complete side-channel analysis flow on IPECC 
 <a href="https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027"><img src="https://img.shields.io/badge/ASCAD_IPECC-FFFFFF" alt="ASCAD IPECC"></a>
 </div>
 
-_**Authors :** Benoît GÉRARD, Malek SFAXI, Victor LOMNÉ_
+_**Authors :** Benoît GÉRARD (ANSSI), Malek SFAXI (NinjaLab), Victor LOMNÉ (NinjaLab)_
 
 ## Contents
 - [Requirements](#requirements)
