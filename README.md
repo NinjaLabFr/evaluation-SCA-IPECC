@@ -43,7 +43,7 @@ brew install git python3 wget hdf5
 
 ### Docker
 
-If you would like to test the scripts using Docker, ensure you have `wget` (to download the datasets) and Docker installed and running (by following [Docker official documentation](https://docs.docker.com/engine/install/)). 
+If you would like to test the scripts using Docker, ensure you have `wget` (to download the datasets) and Docker installed and running (by following [Docker official documentation](https://docs.docker.com/engine/install/) & [Docker Post-Installation Setup](https://docs.docker.com/engine/install/linux-postinstall/)). 
 
 
 
