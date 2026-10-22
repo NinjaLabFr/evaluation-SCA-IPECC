@@ -42,7 +42,7 @@ def compute_snr(
     for iname in file_handler["inputs"].dtype.fields:
         inputs_list.append(iname)
 
-    print("Traces shape:", traces.shape)
+    print("Subtraces shape:", traces.shape)
     print("Inputs shape:", x.shape)
     if nb_traces is not None:
         assert (

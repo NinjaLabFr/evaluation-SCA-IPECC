@@ -317,7 +317,7 @@ Finally, given the SNR results, we perform a template attack on the inputs that 
 3. Finally, using these results, we predict the inputs of the testing subset, and compute our success rate (as the accuracy of the prediction)
 
 ```
-python3 template-attack.py -d test_level3-1/subtraces.h5 -i kappa_prime -t 0.0009
+python3 template_attack.py -d test_level3-1/subtraces.h5 -i kappa_prime -t 0.0009
 
     ┌──────────────────────────────────────────┐
     |      Template attacks using SCALib       |

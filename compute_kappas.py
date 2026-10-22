@@ -113,4 +113,4 @@ if __name__ == "__main__":
     np.save(os.path.join(args.temp_dir, "inputs_kappa.npy"), kappas)
     np.save(os.path.join(args.temp_dir, "inputs_kappaP.npy"), kappaPs)
 
-    print(f"Successfully processed {phi.shape[0]} entries.")
+    print(f"Successfully processed {phi.shape[0]} scalar multiplication operations.")
