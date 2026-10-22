@@ -1,5 +1,7 @@
 FROM python:3.13.5-slim
 WORKDIR /app
-COPY . /app
+COPY *.py /app
+COPY *.sh /app
+COPY *.ipynb /app
 RUN pip install -r requirements.txt
 ENTRYPOINT ["bash", "sca-flow.sh"]
