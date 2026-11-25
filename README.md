@@ -378,3 +378,23 @@ Processing subtraces 13305:14131
 Success rate: 86.91
 
 ```
+
+## Citation
+Please use the following to cite the code in this repository or the datasets provided :
+```latex
+% to cite the code of this repository
+@misc{scaIPECC,
+  title        = {{IPECC additional supplementary material for SCA evaluation}},
+  author       = "{Benoît Gérard and Malek Sfaxi and Victor Lomné}",
+  howpublished = "\url{https://github.com/NinjaLabFr/evaluation-SCA-IPECC}",
+  year         = 2026,
+}
+
+% to cite one of the datasets
+@misc{ASCADIPECC,
+  title        = {{ASCAD IPECC}},
+  author       = "{Benoît Gérard and Malek Sfaxi and Victor Lomné}",
+  howpublished = "\url{https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027}",
+  year         = 2026,
+}
+```
