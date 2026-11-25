@@ -22,6 +22,7 @@ _**Authors :** Benoît GÉRARD (ANSSI), Malek SFAXI (NinjaLab), Victor LOMNÉ (N
 - [Usage](#usage)
 - [Features](#features)
 - [Demonstration](#demonstration)
+- [Citation](#citation)
 
 <!-- <p align="justify"> -->
 
