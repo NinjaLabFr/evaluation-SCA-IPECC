@@ -5,4 +5,4 @@ COPY *.sh /app
 COPY *.ipynb /app
 COPY *.txt /app
 RUN pip install -r requirements.txt
-ENTRYPOINT ["bash", "sca-flow.sh"]
+ENTRYPOINT ["make", "all"]

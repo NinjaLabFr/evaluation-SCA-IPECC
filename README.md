@@ -55,41 +55,24 @@ Otherwise, if you wish to dig deeper into the details of this work, please take 
 >[!NOTE]
 > You need at least $130GB$ of free disk space. More generally, if you download, decompress and run the SCA flow on $n$ subsets of one dataset, you will need at least $n \times 65GB$ of free disk space.
 
-### Native way
 <p align="justify">
-The script <code>test_all_scripts_level3-1.sh</code> is an all-in-one script which installs the required dependencies, downloads the two first subsets of the dataset corresponding to <a href="#level3-1">Level 3.1</a>, and runs the SCA scripts using them directly. All you need is to run the following shell commands:
+The script <code>test_all_scripts_level3-1.sh</code> is an all-in-one script which installs the required dependencies, downloads the two first subsets of the dataset corresponding to <a href="#level3-1">Level 3.1</a>, and runs the SCA scripts using them directly. All you need is to run the following shell commands (choose the usage mode local or docker, default is local):
 </p>
 
+
 **Linux**
 ```bash
 git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
-bash test_all_scripts_level3-1.sh
+bash test_all_scripts_level3-1.sh <local|docker>
 ```
 
 **MacOS**
 ```bash
 git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
-zsh test_all_scripts_level3-1.sh
+zsh test_all_scripts_level3-1.sh <local|docker>
 ```
-### Docker
-
-**Linux**
-```bash
-git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
-cd evaluation-SCA-IPECC
-bash test_all_scripts_level3-1_docker.sh
-```
-
-**MacOS**
-```zsh
-git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
-cd evaluation-SCA-IPECC
-zsh test_all_scripts_level3-1_docker.sh
-```
-
-
 
 ## Setup
 You will need to install the required Python libraries, namely `ECUtils`, `H5Py`, `Jupyter`, `NumPy`, `Matplotlib` and `SCALib`. 
@@ -146,7 +129,7 @@ As each of the 11 datasets contains 900 traces of length 150 million samples sto
 
 You can test the scripts against (one of) the datasets available via [this link](https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027).
 
-To download a specific dataset subset, you can use the bash oneliner :
+To download a specific dataset subset, you can use the bash oneliner:
 ```bash
 # (replace `X` , `Y` and `N` in the dataset name) 
 wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_<X>-<Y>_part_<N>.tar.zst
@@ -154,8 +137,11 @@ wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_<X>-<Y>_part_<N>.ta
 
 For example, to download the first subset of the dataset [Level 1.0](#level1-0) (only the first 100 inputs and traces of that dataset), you can use the following bash command:
 ```bash
-wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_1-0_part_0.tar.zst  
+wget -c https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_1-0_part_0.tar.zst  
 ```
+
+> [!TIP]
+> You can use the `-c` flag to resume an interrupted or partially downloaded file
 
 To download all the subsets of one or several dataset(s), you can use the following bash commands:
 ```bash
@@ -168,7 +154,6 @@ wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_1-{0,1,3}_part_{0..
 # download the 9 subsets of each of the four levels 2 and 3 datasets at once:
 wget https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_{2,3}-{0..3}_part_{0..8}.tar.zst
 ```
-
 --- 
 
 **Datasets Decompression**

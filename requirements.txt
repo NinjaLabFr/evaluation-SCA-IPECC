@@ -1,4 +1,4 @@
-ecutils==1.0.1
+ecutils==2.0.1
 h5py==3.12.1
 jupyter==1.1.1
 matplotlib==3.10.3
