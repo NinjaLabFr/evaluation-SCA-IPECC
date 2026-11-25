@@ -46,7 +46,6 @@ brew install git python3 wget hdf5
 If you would like to test the scripts using Docker, ensure you have `wget` (to download the datasets) and Docker installed and running (by following [Docker official documentation](https://docs.docker.com/engine/install/) & [Docker Post-Installation Setup](https://docs.docker.com/engine/install/linux-postinstall/)). 
 
 
-
 ## Quickstart
 If you wish to directly test the scripts, you can achieve that using the following.
 Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
@@ -106,8 +105,9 @@ Otherwise, if you prefer using Docker, refer to [this section](#docker-usage).
 ## Datasets Details
 
 <p align="justify">
-We provide 11 datasets, each one containing 900 EM traces of scalar multiplication computed over the elliptic curve FRP256v1. In the table below, we detail the security configurations of the 11 datasets showcasing the different countermeasures enabled for each dataset. Each line of the table corresponds to one of the 11 configurations / datasets. 
+We provide 11 datasets, each one containing 900 EM traces of scalar multiplication computed over the elliptic curve <a href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000024668816">FRP256v1</a>. In the table below, we detail the security configurations of the 11 datasets showcasing the different countermeasures enabled for each dataset. Each line of the table corresponds to one of the 11 configurations / datasets. 
 
+Each level has a default configuration and additional ticks indicate extra features enabled on top of it.
 A cell with a green checkmark (✅) conveys that the corresponding countermeasure is activated for the considered configuration / dataset. The ❌ indicates that the countermeasure is disabled by default.
 </p>
 
@@ -115,21 +115,12 @@ A cell with a green checkmark (✅) conveys that the corresponding countermeasur
 <img src="img/datasets.png" width=75%>
 </p> -->
 
-| Level/Countermeasure | XY Shuffling | Shift Register | Memory Shuffling |
-|:--------------------:|:------------:|:--------------:|:----------------:|
-|       <a id="level1-0"></a>Level 1.0      |              |       ❌       |                  |
-|       Level 1.1      |      ✅      |       ❌       |                  |
-|       Level 1.3      |      ✅      |       ❌       |        ✅        |
-|       Level 2.0      |              |                |                  |
-|       Level 2.1      |      ✅      |                |                  |
-|       Level 2.2      |      ✅      |       ✅       |                  |
-|       Level 2.3      |      ✅      |       ✅       |        ✅        |
-|       Level 3.0      |              |                |                  |
-|       <a id="level3-1"></a>Level 3.1      |      ✅      |                |                  |
-|       Level 3.2      |      ✅      |       ✅       |                  |
-|       Level 3.3      |      ✅      |       ✅       |        ✅        |
 
-
+| Countermeasure | Level 1.0 | Level 1.1 | Level 1.3 | Level 2.0 | Level 2.1 | Level 2.2 | Level 2.3 | Level 3.0 | Level 3.1 | Level 3.2 | Level 3.3 |
+|:----------------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+| XY Shuffling |  | ✅ | ✅ |  | ✅ | ✅ | ✅ |  | ✅ | ✅ | ✅ |
+| Shift Register | ❌ | ❌ | ❌ |  |  | ✅ | ✅ |  |  | ✅ | ✅ |
+| Memory Shuffling |  |  | ✅ |  |  |  | ✅ |  |  |  | ✅ |
 
 
 Each provided dataset contains information about the setup, and for each scalar multiplication:
@@ -215,6 +206,15 @@ If you wish to use several subsets of the same dataset, you can concatenate them
 python3 link_datasets.py ipecc_level_1-0_part_0.h5 ipecc_level_1-0_part_1.h5 ... [-o out.h5]
 ```
 
+> **Note (Docker usage):** If you would like to use Docker, you do not need to run this script locally  install `h5py` or `zstd` locally.
+You can directly use the following command to link the datasets :
+>
+> ```bash
+> docker build -t ipecc . && docker run --rm -v <absolute-path-of-dataset-directory>:/datasets  --entrypoint python3 ipecc /app/link_datasets.py  /datasets/ipecc_level_1-0_part_0.h5 /datasets/ipecc_level_1-0_part_1.h5 ... -o /datasets/out.h5
+> ```
+>
+> This produces `out.h5` on your host in `<absolute-path-of-dataset-directory>`, which you can use directly later.
+
 
 ## Usage
 
@@ -231,9 +231,8 @@ If you want to customize the parameters, [the section Demonstration](#demonstrat
 If you wish to use Docker, upon downloading (and concatenating) the datasets, please run the following command (and replace `<absolute-path-of-dataset-directory>` and `<dataset-name>` with the absolute path of the local dataset directory and the dataset filename respectively): 
 
 ```bash
- docker build -t ipecc . && docker run  -v <absolute-path-of-dataset-directory>:/datasets ipecc  /datasets/<dataset-name> /datasets/
+docker build -t ipecc . && docker run  -v <absolute-path-of-dataset-directory>:/datasets ipecc  /datasets/<dataset-name> /datasets/
 ```
-
 ### Notebooks
 You can also refer to the two following notebooks:
   - `1_dataset_presentation.ipynb` presenting the dataset structure and content,
