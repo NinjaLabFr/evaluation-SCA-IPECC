@@ -1,12 +1,23 @@
-# IPECC | Side Channel Analysis
-<p align="justify">
-Collection of scripts to perform a complete side-channel analysis flow on IPECC electromagnetic (EM) traces, based on the open-source library <a href="https://scalib.readthedocs.io/">SCALib</a>, related to the research paper <b>IPECC: an Open-Source Side-Channel Resistant ECC Hardware Accelerator</b>, published in the journal TCHES 2027 issue 1.
-</p>
-
-<div align="center">
-<p> Datasets available via:<p>
+<table>
+<thead>
+  <tr>
+    <th><h1 align=center>IPECC | Side Channel Analysis</h1></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><p align="center">
+<img src="./img/banner.png" width="50%">
+<p align="center">Collection of scripts to perform a complete side-channel analysis flow on IPECC electromagnetic (EM) traces, based on the open-source library <a href="https://scalib.readthedocs.io/">SCALib</a>, related to the research paper <b>IPECC: an Open-Source Side-Channel Resistant ECC Hardware Accelerator</b>, published in the journal TCHES 2027 issue 1.</p>
+<p align="center">Datasets available via:
 <a href="https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027"><img src="https://img.shields.io/badge/ASCAD_IPECC-FFFFFF" alt="ASCAD IPECC"></a>
-</div>
+</p>
+</td>
+  </tr>
+</tbody>
+</table>
+
+
 
 _**Authors :** Benoît GÉRARD (ANSSI), Malek SFAXI (NinjaLab), Victor LOMNÉ (NinjaLab)_
 
@@ -52,7 +63,7 @@ If you wish to directly test the scripts, you can achieve that using the followi
 Otherwise, if you wish to dig deeper into the details of this work, please take a look at the following sections.
 
 
->[!NOTE]
+>[!IMPORTANT]
 > You need at least $130GB$ of free disk space. More generally, if you download, decompress and run the SCA flow on $n$ subsets of one dataset, you will need at least $n \times 65GB$ of free disk space.
 
 <p align="justify">
@@ -192,7 +203,8 @@ If you wish to use several subsets of the same dataset, you can concatenate them
 make link DATASET=out.h5 DATA_DIR=<dataset-directory> PARTS="<dataset-directory>/ipecc_level_1-0_part_0.h5 <dataset-directory>/ipecc_level_1-0_part_1.h5 ..."
 ```
 
->[!NOTE]* **Docker usage:** If you would like to use Docker, you do not need to run this script locally.
+>[!NOTE]
+> **Docker usage:** If you would like to use Docker, you do not need to run this script locally.
 > You can directly use the following command to link the datasets (replace `<absolute-path-of-dataset-directory>` alongside the subsets names):
 >
 > ```bash
