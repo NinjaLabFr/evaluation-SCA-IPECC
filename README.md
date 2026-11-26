@@ -140,7 +140,7 @@ For example, to download the first subset of the dataset [Level 1.0](#level1-0) 
 wget -c https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/ipecc_level_1-0_part_0.tar.zst  
 ```
 
-> [!TIP]
+>[!TIP]
 > You can use the `-c` flag to resume an interrupted or partially downloaded file
 
 To download all the subsets of one or several dataset(s), you can use the following bash commands:
@@ -189,40 +189,41 @@ The dataset is an archive of type `.tar.zstd` (compressed with the [zstd](https:
 If you wish to use several subsets of the same dataset, you can concatenate them into one virtual dataset which you can use as argument in the following steps:
 
 ```bash
-python3 link_datasets.py ipecc_level_1-0_part_0.h5 ipecc_level_1-0_part_1.h5 ... [-o out.h5]
+make link DATASET=out.h5 DATA_DIR=<dataset-directory> PARTS="<dataset-directory>/ipecc_level_1-0_part_0.h5 <dataset-directory>/ipecc_level_1-0_part_1.h5 ..."
 ```
 
-> **Note (Docker usage):** If you would like to use Docker, you do not need to run this script locally  install `h5py` or `zstd` locally.
-You can directly use the following command to link the datasets :
+>[!NOTE]* **Docker usage:** If you would like to use Docker, you do not need to run this script locally.
+> You can directly use the following command to link the datasets (replace `<absolute-path-of-dataset-directory>` alongside the subsets names):
 >
 > ```bash
-> docker build -t ipecc . && docker run --rm -v <absolute-path-of-dataset-directory>:/datasets  --entrypoint python3 ipecc /app/link_datasets.py  /datasets/ipecc_level_1-0_part_0.h5 /datasets/ipecc_level_1-0_part_1.h5 ... -o /datasets/out.h5
+> docker build -t ipecc . && docker run --rm  -v <absolute-path-of-datasets-directory>:/datasets ipecc link DATASET=out.h5 DATA_DIR=/datasets PARTS="/datasets/ipecc_level_1-0_part_0.h5 /datasets/ipecc_level_1-0_part_1.h5 ..."
 > ```
->
 > This produces `out.h5` on your host in `<absolute-path-of-dataset-directory>`, which you can use directly later.
 
 
 ## Usage
 
 ### Native Usage
-The script `sca-flow.sh` runs an example flow of the scripts. You can use the command:
+The `Makefile` runs an example flow of the scripts. You can use the command:
 ```
-bash sca-flow.sh <dataset> <dataset-directory>
+make all DATASET=<dataset> DATA_DIR=<dataset-directory>
 ```
 On a standard laptop, this script will run a couple of minutes before ending (using the provided parameters).
 
 If you want to customize the parameters, [the section Demonstration](#demonstration) encompasses a complete example of usage for each script.
 
 ### Docker Usage
-If you wish to use Docker, upon downloading (and concatenating) the datasets, please run the following command (and replace `<absolute-path-of-dataset-directory>` and `<dataset-name>` with the absolute path of the local dataset directory and the dataset filename respectively): 
+If you wish to use Docker, upon downloading (and concatenating) the datasets, please run the following command (and replace `<absolute-path-of-dataset-directory>` and `<dataset-name>` with the absolute path of the local dataset directory and the dataset filename respectively):
 
 ```bash
-docker build -t ipecc . && docker run  -v <absolute-path-of-dataset-directory>:/datasets ipecc  /datasets/<dataset-name> /datasets/
+docker build -t ipecc . && docker run --rm -v <absolute-path-of-dataset-directory>:/datasets ipecc all DATASET=<dataset-name> DATA_DIR=/datasets
 ```
+
+
 ### Notebooks
 You can also refer to the two following notebooks:
   - `1_dataset_presentation.ipynb` presenting the dataset structure and content,
-  - `2_template_attack_on_kappas.ipynb` which is a verbose version of `sca-flow.sh`.
+  - `2_template_attack_on_kappas.ipynb` which is a verbose version of the example flow.
 
 Just launch from the virtual environment
 ```bash
@@ -258,8 +259,37 @@ The scripts are based on [SCALib](https://scalib.readthedocs.io/).
 4. `template_attack.py` performs a template attack on the subtraces.
 - `plot_traces.py` can be used to plot EM traces of any `.h5` file.
 
+To facilitate the usage, the Makefile allows directly the scripts by following its usage : 
+```
+Usage
+  make <target> [DATASET=<name.h5>] [DATA_DIR=<dir>] [PARTS="<part_0.h5> <part_1.h5> ..."]
 
+  Every command needs DATASET and DATA_DIR.
+  Use PARTS only for make link (concatenate subsets into one virtual dataset).
 
+  Defaults: DATASET=ipecc_level_1-0.h5  DATA_DIR=./datasets  PARTS=./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5
+
+Targets
+  make all        Run the full SCA flow on ./datasets/ipecc_level_1-0.h5
+  make kappas     Compute kappas
+  make splitting  Split traces into ./datasets/subtraces.h5
+  make snr        Compute SNR
+  make attack     Run template attack
+  make link       Concatenate subsets into ./datasets/ipecc_level_1-0.h5 (if needed)
+
+Examples
+  Full flow
+    make all DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
+
+  Single steps
+    make kappas    DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
+    make splitting DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
+    make snr       DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
+    make attack    DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
+
+  Concatenate subsets
+    make link DATASET=linked.h5 DATA_DIR=./datasets PARTS="./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5"
+```
 
 ## Demonstration
 In this demonstration, we will create a directory `test_level3-1` in which we move our dataset and which will contain all the operations outputs.  
@@ -268,7 +298,7 @@ In this demonstration, we will create a directory `test_level3-1` in which we mo
 The first step is to generate the inputs $\kappa$ and $\kappa'$ that are used instead of $k$ in the scalar multiplication (which implement the anti-ADPA countermeasure).
 
 ```
-python3 compute_kappas.py -d test_level3-1/ipecc_level_3-1_part_0.h5 -t test_level3-1
+make kappas DATASET=ipecc_level_3-1_part_0.h5 DATA_DIR=test_level3-1
 
     ┌──────────────────────────────────────────┐
     |         Compute kappa and kappa'         |
@@ -282,7 +312,7 @@ This will generate two new files `inputs_kappa.npy` and `inputs_kappaP.npy` in t
 
 Given the fact that all our inputs are ready now, we split each scalar multiplication trace into 254 subtraces corresponding to the 254 iterations of each scalar multiplication, discard the first and last due to some specificities of these iterations and apply an additional filtering step for subtraces that are not aligned enough.
 ```
-python3 splitting.py -d test_level3-1/ipecc_level_3-1_part_0.h5 -t test_level3-1 -r
+make splitting DATASET=ipecc_level_3-1_part_0.h5 DATA_DIR=test_level3-1
 
     ┌──────────────────────────────────────────┐
     |             Split and Resync             |
@@ -309,7 +339,7 @@ This will create the PNG file `traces` in the local directory with the correspon
 At this step, we will perform leakage assessment on each on the input bits.
 
 ```
-python3 compute_snr.py -d test_level3-1/subtraces.h5 -o data
+make snr DATASET=ipecc_level_3-1_part_0.h5 DATA_DIR=test_level3-1
 
     ┌──────────────────────────────────────────┐
     |             SNR based on SCALib          |
@@ -341,7 +371,7 @@ Finally, given the SNR results, we perform a template attack on the inputs that 
 3. Finally, using these results, we predict the inputs of the testing subset, and compute our success rate (as the accuracy of the prediction)
 
 ```
-python3 template_attack.py -d test_level3-1/subtraces.h5 -i kappa_prime -t 0.0009
+make attack DATASET=ipecc_level_3-1_part_0.h5 DATA_DIR=test_level3-1
 
     ┌──────────────────────────────────────────┐
     |      Template attacks using SCALib       |
@@ -362,7 +392,6 @@ Processing subtraces 11000:11305
 3. Predict 
 Processing subtraces 13305:14131
 Success rate: 86.91
-
 ```
 
 ## Citation
@@ -376,7 +405,7 @@ Please use the following to cite the code in this repository or the datasets pro
   year         = 2026,
 }
 
-% to cite one of the datasets
+% to cite the datasets
 @misc{ASCADIPECC,
   title        = {{ASCAD IPECC}},
   author       = "{Benoît Gérard and Malek Sfaxi and Victor Lomné}",

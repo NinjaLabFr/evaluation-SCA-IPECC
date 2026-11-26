@@ -53,9 +53,9 @@ fi
 # Linking datasets (local vs Docker)
 printf "\n5/ Linking dataset subsets ..."
 if [[ "$MODE" == "local" ]]; then
-    python3 ../link_datasets.py ipecc_level_3-1_part_{0,1}.h5
+    make link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=. PARTS="ipecc_level_3-1_part_0.h5 ipecc_level_3-1_part_1.h5"
 else
-    docker build -t ipecc . && docker run --rm -v "$(pwd)":/datasets ipecc python3 /app/link_datasets.py /datasets/ipecc_level_3-1_part_{0,1}.h5 -o /datasets/out.h5
+    docker build -t ipecc . && docker run --rm -v "$(pwd)":/datasets ipecc link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets PARTS="/datasets/ipecc_level_3-1_part_0.h5 /datasets/ipecc_level_3-1_part_1.h5"
 fi
 
 # Running SCA flow
@@ -64,5 +64,5 @@ cd ..
 if [[ "$MODE" == "local" ]]; then
     make all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=test_level3-1
 else
-    docker build -t ipecc . && docker run --rm -v "$(pwd)/test_level3-1":/datasets ipecc DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets
+    docker build -t ipecc . && docker run --rm  -v "$(pwd)/test_level3-1":/datasets ipecc all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets
 fi
