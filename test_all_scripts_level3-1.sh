@@ -5,6 +5,7 @@
 # Default mode: local
 
 CYAN_BOLD='\033[1;36m'
+BOLD='\033[1m'
 NC='\033[0m' # No Color
 
 # Print help
@@ -17,7 +18,7 @@ fi
 # Default mode: local
 MODE=${1:-"local"}
 
-echo -e "${CYAN_BOLD}Running in $MODE mode${NC}"
+echo -e "${CYAN_BOLD}$MODE usage selected${NC}"
 
 # Directory setup
 dir="test_level3-1"
@@ -26,21 +27,21 @@ cd "$dir"
 
 # Creating virtual environment and installing dependencies (local mode only)
 if [[ "$MODE" == "local" ]]; then
-    printf "\n1/ Creating virtual environment ...\n"
+    printf "\n${BOLD}1/ Creating virtual environment ...${BOLD}\n"
     python3 -m venv IPECCenv && source IPECCenv/bin/activate
-    printf "\n2/ Installing dependencies ...\n"
+    printf "\n${BOLD}2/ Installing dependencies ...${BOLD}\n"
     pip install -q -r ../requirements.txt
 fi
 
 # Downloading datasets
-printf "\n3/ Downloading archives ...\n"
+printf "\n${BOLD}3/ Downloading archives ...${BOLD}\n"
 for i in 0 1; do
     dataset="ipecc_level_3-1_part_${i}.tar.zst"
     [[ -f "$dataset" ]] && echo "$dataset exists, skipping the download." || wget -c "https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/$dataset"
 done
 
 # Decompressing archives
-printf "\n4/ Uncompressing archives ..."
+printf "\n${BOLD}4/ Uncompressing archives ...${BOLD}\n"
 if [[ $(uname -s) == "Linux" ]]; then
     printf "%s " ipecc_level_3-1_part_{0,1}.tar.zst | xargs -n 1 tar -I zstd -xf
 elif [[ $(uname -s) == "Darwin" ]]; then
@@ -51,7 +52,7 @@ else
 fi
 
 # Linking datasets (local vs Docker)
-printf "\n5/ Linking dataset subsets ..."
+printf "\n${BOLD}5/ Linking dataset subsets ...${BOLD}\n"
 if [[ "$MODE" == "local" ]]; then
     make link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=. PARTS="ipecc_level_3-1_part_0.h5 ipecc_level_3-1_part_1.h5"
 else
@@ -59,7 +60,7 @@ else
 fi
 
 # Running SCA flow
-printf "\n6/ Running SCA flow ..."
+printf "\n${BOLD}6/ Running SCA flow ...${BOLD}\n"
 cd ..
 if [[ "$MODE" == "local" ]]; then
     make all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=test_level3-1

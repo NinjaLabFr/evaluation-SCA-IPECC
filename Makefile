@@ -6,6 +6,14 @@ PARTS        ?= $(DATA_DIR)/ipecc_level_1-0_part_0.h5 $(DATA_DIR)/ipecc_level_1-
 DATASET_PATH := $(DATA_DIR)/$(DATASET)
 SUBTRACES    := $(DATA_DIR)/subtraces.h5
 
+
+# Abort early on error
+SHELL        := /bin/bash
+.SHELLFLAGS  := -euo pipefail -c
+.DELETE_ON_ERROR:
+.NOTPARALLEL:
+
+
 CYAN  := $(shell printf '\033[36m')
 GREEN := $(shell printf '\033[32m')
 DIM   := $(shell printf '\033[2m')
@@ -47,28 +55,28 @@ help:
 	@echo "    $(CYAN)make link$(RESET) $(GREEN)DATASET$(RESET)=linked.h5 $(GREEN)DATA_DIR$(RESET)=./datasets $(GREEN)PARTS$(RESET)=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\""
 
 
-# compute kappas
+#compute kappas
 .PHONY: kappas
 kappas: $(DATASET_PATH)
 	python3 compute_kappas.py -d "$(DATASET_PATH)" -t "$(DATA_DIR)"
 
-# splitting scalar multiplication traces into iteration subtraces
+#splitting scalar multiplication traces into iteration subtraces
 .PHONY: splitting
 splitting: $(SUBTRACES)
 $(SUBTRACES): $(DATASET_PATH)
 	python3 splitting.py -d "$(DATASET_PATH)" -t "$(DATA_DIR)" -r
 
-# SNR
+#SNR
 .PHONY: snr
 snr: $(SUBTRACES)
 	python3 compute_snr.py -d "$(SUBTRACES)" -o "$(DATA_DIR)"
 
-# template attack
+#template attack
 .PHONY: attack
 attack: $(SUBTRACES)
 	python3 template_attack.py -d "$(SUBTRACES)" -i kappa_prime -t 0.0009
 
-# full sca flow 
+#full sca flow 
 .PHONY: all
 all: kappas snr attack
 
