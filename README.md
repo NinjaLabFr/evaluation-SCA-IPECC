@@ -2,7 +2,7 @@
 
 <div align="center">
   <img src="./img/banner.png" width="50%">
-  <p>Collection of scripts to perform a complete side-channel analysis flow on IPECC electromagnetic (EM) traces, based on the open-source library <a href="https://scalib.readthedocs.io/">SCALib</a>, related to the research paper <b>IPECC: an Open-Source Side-Channel Resistant ECC Hardware Accelerator</b>, published in the journal TCHES 2027 issue 1.</p>
+  <p>Collection of scripts to perform a complete side-channel analysis flow on IPECC electromagnetic (EM) traces, based on the open-source library <a href="https://scalib.readthedocs.io/">SCALib</a>, related to the research paper <b>IPECC: an Open-Source Side-Channel Resistant ECC Hardware Accelerator</b>, published in the journal <a href="https://tches.iacr.org/">TCHES</a> 2027 issue 1.</p>
   <p>Datasets available via:
     <a href="https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027"><img src="https://img.shields.io/badge/ASCAD_IPECC-FFFFFF" alt="ASCAD IPECC"></a>
   </p>
@@ -12,6 +12,7 @@
 _**Authors :** Benoît GÉRARD (ANSSI), Malek SFAXI (NinjaLab), Victor LOMNÉ (NinjaLab)_
 
 ## Contents
+- [About](#about)
 - [Requirements](#requirements)
 - [Quickstart](#quickstart)
 - [Setup](#setup)
@@ -26,6 +27,13 @@ _**Authors :** Benoît GÉRARD (ANSSI), Malek SFAXI (NinjaLab), Victor LOMNÉ (N
 - [Citation](#citation)
 
 <!-- <p align="justify"> -->
+
+## About 
+This work encompasses the following:
+- **ASCAD IPECC:** public EM scalar multiplication side-channel datasets acquired on several IPECC security configurations, released through [ASCAD IPECC](https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027), intended as a common benchmark for side-channel evaluation.
+- **The repository itself:** a reproducible side-channel analysis flow built on [SCALib](https://scalib.readthedocs.io/), covering leakage assessment (SNR), trace splitting and resynchronization, and template attacks.
+
+> **Note.** We encourage everyone to attempt to break the protected configurations using the provided datasets. The demonstration below is only a first attack, targeting the Level 3.1.
 
 ## Requirements 
 ### Native Installation
@@ -207,7 +215,7 @@ make link DATASET=out.h5 DATA_DIR=<dataset-directory> PARTS="<dataset-directory>
 
 ### Native Usage
 The `Makefile` runs an example flow of the scripts. You can use the command:
-```
+```bash
 make all DATASET=<dataset> DATA_DIR=<dataset-directory>
 ```
 On a standard laptop, this script will run a couple of minutes before ending (using the provided parameters).
