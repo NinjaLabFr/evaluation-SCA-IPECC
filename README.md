@@ -43,12 +43,12 @@ To run the provided scripts, you need a computer running Python3 on Linux (teste
 
 **Linux**
 ```bash
-sudo apt install git python3 pip wget
+sudo apt install git python3 pip wget make
 ```
 
 **MacOS**
 ```bash
-brew install git python3 wget hdf5
+brew install git python3 wget hdf5 make
 ``` 
 
 ### Docker
