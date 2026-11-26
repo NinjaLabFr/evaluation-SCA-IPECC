@@ -1,22 +1,12 @@
-<table>
-<thead>
-  <tr>
-    <th><h1 align=center>IPECC | Side Channel Analysis</h1></th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td><p align="center">
-<img src="./img/banner.png" width="50%">
-<p align="center">Collection of scripts to perform a complete side-channel analysis flow on IPECC electromagnetic (EM) traces, based on the open-source library <a href="https://scalib.readthedocs.io/">SCALib</a>, related to the research paper <b>IPECC: an Open-Source Side-Channel Resistant ECC Hardware Accelerator</b>, published in the journal TCHES 2027 issue 1.</p>
-<p align="center">Datasets available via:
-<a href="https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027"><img src="https://img.shields.io/badge/ASCAD_IPECC-FFFFFF" alt="ASCAD IPECC"></a>
-</p>
-</td>
-  </tr>
-</tbody>
-</table>
+<h1 align="center">IPECC | Side Channel Analysis</h1>
 
+<div align="center">
+  <img src="./img/banner.png" width="50%">
+  <p>Collection of scripts to perform a complete side-channel analysis flow on IPECC electromagnetic (EM) traces, based on the open-source library <a href="https://scalib.readthedocs.io/">SCALib</a>, related to the research paper <b>IPECC: an Open-Source Side-Channel Resistant ECC Hardware Accelerator</b>, published in the journal TCHES 2027 issue 1.</p>
+  <p>Datasets available via:
+    <a href="https://demo.data.gouv.fr/datasets/ascad-ipecc-tches-2027"><img src="https://img.shields.io/badge/ASCAD_IPECC-FFFFFF" alt="ASCAD IPECC"></a>
+  </p>
+</div>
 
 
 _**Authors :** Benoît GÉRARD (ANSSI), Malek SFAXI (NinjaLab), Victor LOMNÉ (NinjaLab)_
