@@ -28,14 +28,14 @@ cd "$dir"
 
 # 1/ venv + deps (local only)
 if [[ "$MODE" == "local" ]]; then
-    printf "\n${BOLD}1/ Creating virtual environment ...${NC}\n"
+    printf "\n${BOLD}Creating virtual environment ...${NC}\n"
     python3 -m venv IPECCenv && source IPECCenv/bin/activate
-    printf "\n${BOLD}2/ Installing dependencies ...${NC}\n"
+    printf "\n${BOLD}Installing dependencies ...${NC}\n"
     pip install -q -r "$ROOT_DIR/requirements.txt"
 fi
 
 # 3/ download
-printf "\n${BOLD}3/ Downloading archives ...${NC}\n"
+printf "\n${BOLD}Downloading archives ...${NC}\n"
 for i in 0 1; do
     dataset="ipecc_level_3-1_part_${i}.tar.zst"
     [[ -f "$dataset" ]] && echo "$dataset exists, skipping the download." \
@@ -43,7 +43,7 @@ for i in 0 1; do
 done
 
 # 4/ decompress
-printf "\n${BOLD}4/ Uncompressing archives ...${NC}\n"
+printf "\n${BOLD}Uncompressing archives ...${NC}\n"
 if [[ $(uname -s) == "Linux" ]]; then
     printf "%s " ipecc_level_3-1_part_{0,1}.tar.zst | xargs -n 1 tar -I zstd -xf
 elif [[ $(uname -s) == "Darwin" ]]; then
@@ -57,7 +57,7 @@ fi
 cd "$ROOT_DIR"
 
 # 5/ link
-printf "\n${BOLD}5/ Linking dataset subsets ...${NC}\n"
+printf "\n${BOLD}Linking dataset subsets ...${NC}\n"
 if [[ "$MODE" == "local" ]]; then
     make link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=test_level3-1 \
         PARTS="test_level3-1/ipecc_level_3-1_part_0.h5 test_level3-1/ipecc_level_3-1_part_1.h5"
@@ -67,7 +67,7 @@ else
 fi
 
 # 6/ full SCA flow
-printf "\n${BOLD}6/ Running SCA flow ...${NC}\n"
+printf "\n${BOLD}Running SCA flow ...${NC}\n"
 if [[ "$MODE" == "local" ]]; then
     make all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=test_level3-1
 else
