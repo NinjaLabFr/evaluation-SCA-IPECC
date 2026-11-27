@@ -103,9 +103,9 @@ demo-docker:
 # docker 
 IMAGE      ?= ipecc
 DOCKER_RUN := docker run --rm --user "$$(id -u):$$(id -g)"
+DOCKER_MOUNT ?= $(DATA_DIR)
 STAMP      := .docker-image.stamp
 
-# rebuild the image only when Dockerfile / deps / copied files change
 $(STAMP): Dockerfile requirements.txt Makefile $(wildcard *.py *.sh *.ipynb *.txt)
 	docker build -t $(IMAGE) .
 	@touch $@
@@ -116,7 +116,7 @@ docker-build: $(STAMP)
 .PHONY: docker-link docker-all
 
 docker-link: $(STAMP)
-	$(DOCKER_RUN) -v "$$(pwd)/test_level3-1":/datasets $(IMAGE) link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets PARTS="/datasets/ipecc_level_3-1_part_0.h5 /datasets/ipecc_level_3-1_part_1.h5"
+	$(DOCKER_RUN) -v "$$(pwd)/$(DOCKER_MOUNT)":/datasets $(IMAGE) link DATASET=$(DATASET) DATA_DIR=/datasets PARTS="$(PARTS)"
 
 docker-all: $(STAMP)
-	$(DOCKER_RUN) -v "$$(pwd)/test_level3-1":/datasets $(IMAGE) all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets
+	$(DOCKER_RUN) -v "$$(pwd)/$(DOCKER_MOUNT)":/datasets $(IMAGE) all DATASET=$(DATASET) DATA_DIR=/datasets
