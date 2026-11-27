@@ -64,11 +64,10 @@ help:
 .PHONY: require-parts
 require-parts:
 	@if [ -z "$(strip $(PARTS))" ]; then \
-		echo "error: target '$(MAKECMDGOALS)' requires PARTS." >&2; \
-		echo "  PARTS is a space-separated list of the subset files to concatenate." >&2; \
+		echo "error: $(BOLD)target '$(MAKECMDGOALS)' requires $(CYAN)PARTS$(RESET)." >&2; \
+		echo "  PARTS is a space-separated list of the H5 subset files to concatenate." >&2; \
 		echo "  example:" >&2; \
-		echo "    make $(MAKECMDGOALS) DATASET=linked.h5 DATA_DIR=./datasets \\" >&2; \
-		echo "         PARTS=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\"" >&2; \
+		echo "    make $(MAKECMDGOALS) DATASET=linked.h5 DATA_DIR=./datasets PARTS=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\"" >&2; \
 		exit 1; \
 	fi
 
