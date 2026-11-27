@@ -63,8 +63,9 @@ fi
 
 # Running SCA flow
 printf "\n${BOLD}6/ Running SCA flow ...${NC}\n"
-cd ..
+
 if [[ "$MODE" == "local" ]]; then
+    cd ..
     make all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=test_level3-1
 else
     docker build -t ipecc . && docker run --rm  -v "$(pwd)/test_level3-1":/datasets ipecc all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets

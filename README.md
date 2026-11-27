@@ -109,12 +109,11 @@ A cell with a green checkmark (✅) conveys that the corresponding countermeasur
 </p> -->
 
 
-| Countermeasure | Level 1.0 | Level 1.1 | Level 1.3 | Level 2.0 | Level 2.1 | Level 2.2 | Level 2.3 | Level 3.0 | Level 3.1 | Level 3.2 | Level 3.3 |
-|:----------------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
-| XY Shuffling |  | ✅ | ✅ |  | ✅ | ✅ | ✅ |  | ✅ | ✅ | ✅ |
-| Shift Register | ❌ | ❌ | ❌ |  |  | ✅ | ✅ |  |  | ✅ | ✅ |
-| Memory Shuffling |  |  | ✅ |  |  |  | ✅ |  |  |  | ✅ |
-
+| Countermeasure   | Level 1.0 | Level 1.1 | Level 1.3 | Level 2.0 | Level 2.1 | Level 2.2 | Level 2.3 | Level 3.0 | Level 3.1 | Level 3.2 | Level 3.3 |
+|:-----------------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+| Shift Register   | ❌        | ❌        | ❌        |           |  ✅       | ✅        | ✅        |          |  ✅        | ✅        | ✅        |
+| XY Shuffling     |           | ✅        | ✅        |           |           | ✅        | ✅        |           |           | ✅        | ✅        |
+| Memory Shuffling |           |           | ✅        |           |           |           | ✅        |           |           |           | ✅        |
 
 Each provided dataset contains information about the setup, and for each scalar multiplication:
 - the corresponding $X$ affine coordinate value of a random point $P$,
