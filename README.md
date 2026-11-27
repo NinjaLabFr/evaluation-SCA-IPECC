@@ -272,27 +272,27 @@ Usage
   make <target> [DATASET=<name.h5>] [DATA_DIR=<dir>] [PARTS="<part_0.h5> <part_1.h5> ..."]
 
   Every command needs DATASET and DATA_DIR.
-  Use PARTS only for make link (concatenate subsets into one virtual dataset).
+  Use PARTS only for make link / make docker-link (concatenate subsets into one virtual dataset).
 
-  Defaults: DATASET=ipecc_level_1-0.h5  DATA_DIR=./datasets  PARTS=./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ip
-ecc_level_1-0_part_1.h5
+  Defaults: DATASET=  DATA_DIR=  (PARTS required for link & docker-link)
 
 Targets
-  make all         Run the full SCA flow on ./datasets/ipecc_level_1-0.h5
+  make all         Run the full SCA flow on DATASET_PATH
+  make docker-all  Run the full SCA flow in Docker
   make kappas      Compute kappas
-  make splitting   Split traces into ./datasets/subtraces.h5
+  make splitting   Split traces into DATA_DIR/subtraces.h5
   make snr         Compute SNR
   make attack      Run template attack
-  make link        Concatenate subsets into ./datasets/ipecc_level_1-0.h5 (if needed)
+  make link        Concatenate subsets into DATASET_PATH (if needed)
+  make docker-link Concatenate subsets into DATASET_PATH in Docker (if needed)
   make demo        Run the level3.1 demo (local)
   make demo-docker Run the level3.1 demo (Docker)
-  make docker-all  Run the full flow in Docker
 
 Examples
   Full flow
     make all DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
 
-  Single steps for the SCA flow
+  Single steps
     make kappas    DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
     make splitting DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
     make snr       DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
@@ -300,6 +300,7 @@ Examples
 
   Concatenate subsets
     make link DATASET=linked.h5 DATA_DIR=./datasets PARTS="./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5"
+    make docker-link DATASET=linked.h5 DATA_DIR=./datasets PARTS="./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5"
 ```
 
 ## Demonstration
