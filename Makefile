@@ -7,9 +7,6 @@ PARTS        ?=
 DATASET_PATH := $(DATA_DIR)/$(DATASET)
 SUBTRACES    := $(DATA_DIR)/subtraces.h5
 
-DATASET_PATH := $(DATA_DIR)/$(DATASET)
-SUBTRACES    := $(DATA_DIR)/subtraces.h5
-
 
 # Abort early on error
 SHELL        := /bin/bash
@@ -62,6 +59,11 @@ help:
 	@echo "  $(BOLD)Concatenate subsets$(RESET)"
 	@echo "    $(CYAN)make link$(RESET) $(GREEN)DATASET$(RESET)=linked.h5 $(GREEN)DATA_DIR$(RESET)=./datasets $(GREEN)PARTS$(RESET)=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\""
 	@echo "    $(CYAN)make docker-link$(RESET) $(GREEN)DATASET$(RESET)=linked.h5 $(GREEN)DATA_DIR$(RESET)=./datasets $(GREEN)PARTS$(RESET)=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\""
+
+
+#full sca flow
+.PHONY: all
+all: require-dataset require-data-dir kappas snr attack
 
 
 #explicit error printing with target name and example.
