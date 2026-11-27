@@ -102,10 +102,11 @@ demo-docker:
 
 # docker 
 IMAGE      ?= ipecc
-DOCKER_RUN := docker run --rm --user "$$(id -u):$$(id -g)"
+DOCKER_RUN := docker run --rm
 DOCKER_MOUNT ?= $(DATA_DIR)
 STAMP      := .docker-image.stamp
 
+#avoiding to rebuild the docker image when not necessary
 $(STAMP): Dockerfile requirements.txt Makefile $(wildcard *.py *.sh *.ipynb *.txt)
 	docker build -t $(IMAGE) .
 	@touch $@
