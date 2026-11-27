@@ -225,7 +225,7 @@ If you want to customize the parameters, [the section Demonstration](#demonstrat
 If you wish to use Docker, upon downloading (and concatenating) the datasets, please run the following command (and replace `<absolute-path-of-dataset-directory>` and `<dataset-name>` with the absolute path of the local dataset directory and the dataset filename respectively):
 
 ```bash
-docker build -t ipecc . && docker run --rm -v <absolute-path-of-dataset-directory>:/datasets ipecc all DATASET=<dataset-name> DATA_DIR=/datasets
+make docker-link DATASET=<dataset-name> DATA_DIR=<dataset-directory>
 ```
 
 
