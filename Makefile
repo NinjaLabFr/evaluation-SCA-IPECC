@@ -1,7 +1,11 @@
 # Inputs
-DATASET      ?= 
-DATA_DIR     ?= 
+SRC_DIR      := src
+DATASET      ?=
+DATA_DIR     ?=
 PARTS        ?=
+
+DATASET_PATH := $(DATA_DIR)/$(DATASET)
+SUBTRACES    := $(DATA_DIR)/subtraces.h5
 
 DATASET_PATH := $(DATA_DIR)/$(DATASET)
 SUBTRACES    := $(DATA_DIR)/subtraces.h5
@@ -92,32 +96,28 @@ require-data-dir:
 #compute kappas
 .PHONY: kappas
 kappas: require-dataset require-data-dir $(DATASET_PATH)
-	python3 compute_kappas.py -d "$(DATASET_PATH)" -t "$(DATA_DIR)"
+	python3 $(SRC_DIR)/compute_kappas.py -d "$(DATASET_PATH)" -t "$(DATA_DIR)"
 
-#splitting scalar multiplication traces into iteration subtraces
+#splitting
 .PHONY: splitting
 splitting: require-dataset require-data-dir $(SUBTRACES)
 $(SUBTRACES): $(DATASET_PATH)
-	python3 splitting.py -d "$(DATASET_PATH)" -t "$(DATA_DIR)" -r
+	python3 $(SRC_DIR)/splitting.py -d "$(DATASET_PATH)" -t "$(DATA_DIR)" -r
 
 #SNR
 .PHONY: snr
 snr: require-dataset require-data-dir $(SUBTRACES)
-	python3 compute_snr.py -d "$(SUBTRACES)" -o "$(DATA_DIR)"
+	python3 $(SRC_DIR)/compute_snr.py -d "$(SUBTRACES)" -o "$(DATA_DIR)"
 
 #template attack
 .PHONY: attack
 attack: require-dataset require-data-dir $(SUBTRACES)
-	python3 template_attack.py -d "$(SUBTRACES)" -i kappa_prime -t 0.0009
-
-#full sca flow
-.PHONY: all
-all: require-dataset require-data-dir kappas snr attack
+	python3 $(SRC_DIR)/template_attack.py -d "$(SUBTRACES)" -i kappa_prime -t 0.0009
 
 #link datasets
 .PHONY: link
 link: require-dataset require-data-dir require-parts
-	python3 link_datasets.py $(PARTS) -o "$(DATASET_PATH)"
+	python3 $(SRC_DIR)/link_datasets.py $(PARTS) -o "$(DATASET_PATH)"
 
 
 # Test level 3.1
@@ -125,19 +125,22 @@ link: require-dataset require-data-dir require-parts
 demo: demo-local
 
 demo-local:
-	bash test_level3-1.sh local
+	bash $(SRC_DIR)/test_level3-1.sh local
 
 demo-docker:
-	bash test_level3-1.sh docker
-
+	bash $(SRC_DIR)/test_level3-1.sh docker
 
 # docker
 IMAGE      ?= ipecc
 DOCKER_RUN := docker run --rm
 STAMP      := .docker-image.stamp
 
-#avoiding to rebuild the docker image when not necessary
-$(STAMP): Dockerfile requirements.txt Makefile $(wildcard *.py *.sh *.ipynb *.txt)
+# Files whose change triggers an image rebuild
+SRC_FILES := $(wildcard $(SRC_DIR)/*.py $(SRC_DIR)/*.sh) \
+             $(wildcard $(SRC_DIR)/notebooks/*.ipynb) \
+             $(wildcard $(SRC_DIR)/*.ipynb)
+
+$(STAMP): Dockerfile requirements.txt Makefile $(SRC_FILES)
 	docker build -t $(IMAGE) .
 	@touch $@
 
