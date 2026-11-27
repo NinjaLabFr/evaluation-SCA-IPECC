@@ -292,7 +292,7 @@ Examples
   Full flow
     make all DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
 
-  Single steps
+  Single steps for the SCA flow
     make kappas    DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
     make splitting DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
     make snr       DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets
@@ -378,7 +378,7 @@ We will obtain a saved PNG corresponding to the SNR results. E.g. :
 Finally, given the SNR results, we perform a template attack on the inputs that display high SNR results.
 
 1. We divide our dataset into two subsets : 80% dedicated to building the templates (training) and 20% to perform the predictions (testing).
-3.  Using the first subset, and based on the threshold that we set, we select Points Of Interest (PoIs) and perform a template attack (LDA). 
+2. Using the first subset, and based on the threshold that we set, we select Points Of Interest (PoIs) and perform a template attack (LDA). 
 3. Finally, using these results, we predict the inputs of the testing subset, and compute our success rate (as the accuracy of the prediction)
 
 ```
