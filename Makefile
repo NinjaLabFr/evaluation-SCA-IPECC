@@ -116,8 +116,10 @@ docker-build: $(STAMP)
 
 .PHONY: docker-link docker-all
 
+DOCKER_PARTS := $(patsubst $(DATA_DIR)/%,/datasets/%,$(PARTS))
+
 docker-link: $(STAMP)
-	$(DOCKER_RUN) -v "$$(pwd)/$(DOCKER_MOUNT)":/datasets $(IMAGE) link DATASET=$(DATASET) DATA_DIR=/datasets PARTS="$(PARTS)"
+	$(DOCKER_RUN) -v "$$(pwd)/$(DATA_DIR)":/datasets $(IMAGE) link DATASET=$(DATASET) DATA_DIR=/datasets PARTS="$(DOCKER_PARTS)"
 
 docker-all: $(STAMP)
 	$(DOCKER_RUN) -v "$$(pwd)/$(DOCKER_MOUNT)":/datasets $(IMAGE) all DATASET=$(DATASET) DATA_DIR=/datasets

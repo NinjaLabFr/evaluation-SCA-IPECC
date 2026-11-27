@@ -200,15 +200,14 @@ If you wish to use several subsets of the same dataset, you can concatenate them
 make link DATASET=out.h5 DATA_DIR=<dataset-directory> PARTS="<dataset-directory>/ipecc_level_1-0_part_0.h5 <dataset-directory>/ipecc_level_1-0_part_1.h5 ..."
 ```
 
->[!NOTE]
+> [!NOTE]
 > **Docker usage:** If you would like to use Docker, you do not need to run this script locally.
-> You can directly use the following command to link the datasets (replace `<absolute-path-of-dataset-directory>` alongside the subsets names):
+> You can directly use the following command to link the datasets (replace `<dataset-directory>` and the subset names):
 >
 > ```bash
-> docker build -t ipecc . && docker run --rm  -v <absolute-path-of-datasets-directory>:/datasets ipecc link DATASET=out.h5 DATA_DIR=/datasets PARTS="/datasets/ipecc_level_1-0_part_0.h5 /datasets/ipecc_level_1-0_part_1.h5 ..."
+> make docker-link DATASET=out.h5 DATA_DIR=<dataset-directory> PARTS="<dataset-directory>/ipecc_level_1-0_part_0.h5 <dataset-directory>/ipecc_level_1-0_part_1.h5 ..."
 > ```
-> This produces `out.h5` on your host in `<absolute-path-of-dataset-directory>`, which you can use directly later.
-
+> This produces `out.h5` on your host in `<dataset-directory>`, which you can use directly later.
 
 ## Usage
 
@@ -222,12 +221,11 @@ On a standard laptop, this script will run a couple of minutes before ending (us
 If you want to customize the parameters, [the section Demonstration](#demonstration) encompasses a complete example of usage for each script.
 
 ### Docker Usage
-If you wish to use Docker, upon downloading (and concatenating) the datasets, please run the following command (and replace `<absolute-path-of-dataset-directory>` and `<dataset-name>` with the absolute path of the local dataset directory and the dataset filename respectively):
+If you wish to use Docker, upon downloading (and concatenating) the datasets, please run the following command (and replace `<dataset-directory>` and `<dataset-name>` with the local dataset directory and the dataset filename respectively):
 
 ```bash
-make docker-link DATASET=<dataset-name> DATA_DIR=<dataset-directory>
+make docker-all DATASET=<dataset-name> DATA_DIR=<dataset-directory>
 ```
-
 
 ### Notebooks
 You can also refer to the two following notebooks:
