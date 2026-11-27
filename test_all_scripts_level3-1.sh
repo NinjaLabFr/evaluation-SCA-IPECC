@@ -1,26 +1,27 @@
 #!/bin/bash
-set -euo pipefail # abort on error
-
-# Script for testing al the SCA flow over ASCAD IPECC Level 3.1 supporting both local and docker usage
-# Usage: ./script.sh [local|docker]
-# Default mode: local
+set -euo pipefail
 
 CYAN_BOLD='\033[1;36m'
 BOLD='\033[1m'
-NC='\033[0m' # No style
+NC='\033[0m'
 
-# Default mode: local
-MODE=${1:-"local"}
-
-echo -e "${CYAN_BOLD}$MODE usage selected${NC}"
-
-# Print help
-if [[ "$1" == "-h" ]]; then
+# Print help (must come before MODE is used)
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     echo "Usage: $0 [local|docker]"
     echo "Default mode: local"
     exit 0
 fi
 
+# Default mode: local
+MODE=${1:-"local"}
+
+# Validate mode
+if [[ "$MODE" != "local" && "$MODE" != "docker" ]]; then
+    echo "Error: unknown mode '$MODE' (expected 'local' or 'docker')" >&2
+    exit 1
+fi
+
+echo -e "${CYAN_BOLD}$MODE usage selected${NC}"
 
 # Directory setup
 dir="test_level3-1"
