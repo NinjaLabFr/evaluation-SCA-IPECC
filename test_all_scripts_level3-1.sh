@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail # abort on error
 
 # Script for testing al the SCA flow over ASCAD IPECC Level 3.1 supporting both local and docker usage
 # Usage: ./script.sh [local|docker]
@@ -6,7 +7,7 @@
 
 CYAN_BOLD='\033[1;36m'
 BOLD='\033[1m'
-NC='\033[0m' # No Color
+NC='\033[0m' # No style
 
 # Print help
 if [[ "$1" == "-h" ]]; then
@@ -27,21 +28,21 @@ cd "$dir"
 
 # Creating virtual environment and installing dependencies (local mode only)
 if [[ "$MODE" == "local" ]]; then
-    printf "\n${BOLD}1/ Creating virtual environment ...${BOLD}\n"
+    printf "\n${BOLD}1/ Creating virtual environment ...${NC}\n"
     python3 -m venv IPECCenv && source IPECCenv/bin/activate
-    printf "\n${BOLD}2/ Installing dependencies ...${BOLD}\n"
+    printf "\n${BOLD}2/ Installing dependencies ...${NC}\n"
     pip install -q -r ../requirements.txt
 fi
 
 # Downloading datasets
-printf "\n${BOLD}3/ Downloading archives ...${BOLD}\n"
+printf "\n${BOLD}3/ Downloading archives ...${NC}\n"
 for i in 0 1; do
     dataset="ipecc_level_3-1_part_${i}.tar.zst"
     [[ -f "$dataset" ]] && echo "$dataset exists, skipping the download." || wget -c "https://anssi.s3.sbg.io.cloud.ovh.net/ipecc/$dataset"
 done
 
 # Decompressing archives
-printf "\n${BOLD}4/ Uncompressing archives ...${BOLD}\n"
+printf "\n${BOLD}4/ Uncompressing archives ...${NC}\n"
 if [[ $(uname -s) == "Linux" ]]; then
     printf "%s " ipecc_level_3-1_part_{0,1}.tar.zst | xargs -n 1 tar -I zstd -xf
 elif [[ $(uname -s) == "Darwin" ]]; then
@@ -52,7 +53,7 @@ else
 fi
 
 # Linking datasets (local vs Docker)
-printf "\n${BOLD}5/ Linking dataset subsets ...${BOLD}\n"
+printf "\n${BOLD}5/ Linking dataset subsets ...${NC}\n"
 if [[ "$MODE" == "local" ]]; then
     make link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=. PARTS="ipecc_level_3-1_part_0.h5 ipecc_level_3-1_part_1.h5"
 else
@@ -60,7 +61,7 @@ else
 fi
 
 # Running SCA flow
-printf "\n${BOLD}6/ Running SCA flow ...${BOLD}\n"
+printf "\n${BOLD}6/ Running SCA flow ...${NC}\n"
 cd ..
 if [[ "$MODE" == "local" ]]; then
     make all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=test_level3-1
