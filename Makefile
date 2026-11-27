@@ -60,8 +60,26 @@ help:
 	@echo "    $(CYAN)make docker-link$(RESET) $(GREEN)DATASET$(RESET)=linked.h5 $(GREEN)DATA_DIR$(RESET)=./datasets $(GREEN)PARTS$(RESET)=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\""
 
 
-# clear "missing argument" error, with target name and example.
-.PHONY: require-parts
+#explicit error printing with target name and example.
+.PHONY: require-dataset require-data-dir require-parts
+require-dataset:
+	@if [ -z "$(strip $(DATASET))" ]; then \
+		echo "error: $(BOLD)target '$(MAKECMDGOALS)' requires $(CYAN)DATASET$(RESET)." >&2; \
+		echo "  DATASET is the H5 dataset filename to use for SCA Flow (the concatenated virtual dataset is using several subsets)." >&2; \
+		echo "  example:" >&2; \
+		echo "    make $(MAKECMDGOALS) DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets" >&2; \
+		exit 1; \
+	fi
+
+require-data-dir:
+	@if [ -z "$(strip $(DATA_DIR))" ]; then \
+		echo "error: $(BOLD)target '$(MAKECMDGOALS)' requires $(CYAN)DATA_DIR$(RESET)." >&2; \
+		echo "  DATA_DIR is the directory containing the H5 dataset files." >&2; \
+		echo "  example:" >&2; \
+		echo "    make $(MAKECMDGOALS) DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets" >&2; \
+		exit 1; \
+	fi
+
 require-parts:
 	@if [ -z "$(strip $(PARTS))" ]; then \
 		echo "error: $(BOLD)target '$(MAKECMDGOALS)' requires $(CYAN)PARTS$(RESET)." >&2; \
@@ -74,32 +92,32 @@ require-parts:
 
 #compute kappas
 .PHONY: kappas
-kappas: $(DATASET_PATH)
+kappas: require-dataset require-data-dir $(DATASET_PATH)
 	python3 compute_kappas.py -d "$(DATASET_PATH)" -t "$(DATA_DIR)"
 
 #splitting scalar multiplication traces into iteration subtraces
 .PHONY: splitting
-splitting: $(SUBTRACES)
+splitting: require-dataset require-data-dir $(SUBTRACES)
 $(SUBTRACES): $(DATASET_PATH)
 	python3 splitting.py -d "$(DATASET_PATH)" -t "$(DATA_DIR)" -r
 
 #SNR
 .PHONY: snr
-snr: $(SUBTRACES)
+snr: require-dataset require-data-dir $(SUBTRACES)
 	python3 compute_snr.py -d "$(SUBTRACES)" -o "$(DATA_DIR)"
 
 #template attack
 .PHONY: attack
-attack: $(SUBTRACES)
+attack: require-dataset require-data-dir $(SUBTRACES)
 	python3 template_attack.py -d "$(SUBTRACES)" -i kappa_prime -t 0.0009
 
 #full sca flow
 .PHONY: all
-all: kappas snr attack
+all: require-dataset require-data-dir kappas snr attack
 
 #link datasets
 .PHONY: link
-link: require-parts
+link: require-dataset require-data-dir require-parts
 	python3 link_datasets.py $(PARTS) -o "$(DATASET_PATH)"
 
 
@@ -132,7 +150,7 @@ docker-build: $(STAMP)
 # Host paths (PARTS) -> container paths (/datasets/...)
 DOCKER_PARTS := $(patsubst $(DATA_DIR)/%,/datasets/%,$(PARTS))
 
-docker-link: require-parts $(STAMP)
+docker-link: require-dataset require-data-dir require-parts $(STAMP)
 	@for p in $(PARTS); do \
 		case "$$p" in \
 			$(DATA_DIR)/*) ;; \
@@ -144,6 +162,6 @@ docker-link: require-parts $(STAMP)
 	$(DOCKER_RUN) -v "$$(pwd)/$(DATA_DIR)":/datasets $(IMAGE) link \
 		DATASET=$(DATASET) DATA_DIR=/datasets PARTS="$(DOCKER_PARTS)"
 
-docker-all: $(STAMP)
+docker-all: require-dataset require-data-dir $(STAMP)
 	$(DOCKER_RUN) -v "$$(pwd)/$(DATA_DIR)":/datasets $(IMAGE) all \
 		DATASET=$(DATASET) DATA_DIR=/datasets
