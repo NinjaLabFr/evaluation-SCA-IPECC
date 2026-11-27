@@ -103,11 +103,10 @@ demo-docker:
 IMAGE ?= ipecc
 DOCKER_RUN := docker run --rm --user "$$(id -u):$$(id -g)"
 
-.PHONY: docker-build
-docker-build:
-	docker build -t $(IMAGE) .
-
 .PHONY: docker-link docker-all
-docker-link: docker-build $(DOCKER_RUN) -v "$$(pwd)/test_level3-1":/datasets $(IMAGE) link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets PARTS="/datasets/ipecc_level_3-1_part_0.h5 /datasets/ipecc_level_3-1_part_1.h5"
 
-docker-all: docker-build $(DOCKER_RUN) -v "$$(pwd)/test_level3-1":/datasets $(IMAGE) all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets
+docker-link: docker-build
+	$(DOCKER_RUN) -v "$$(pwd)/test_level3-1":/datasets $(IMAGE) link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets PARTS="/datasets/ipecc_level_3-1_part_0.h5 /datasets/ipecc_level_3-1_part_1.h5"
+
+docker-all: docker-build
+	$(DOCKER_RUN) -v "$$(pwd)/test_level3-1":/datasets $(IMAGE) all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets
