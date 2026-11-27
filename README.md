@@ -229,8 +229,8 @@ make docker-all DATASET=<dataset-name> DATA_DIR=<dataset-directory>
 
 ### Notebooks
 You can also refer to the two following notebooks:
-  - [`1_dataset_presentation.ipynb`](1_dataset_presentation.ipynb) presenting the dataset structure and content,
-  - [`2_template_attack_on_kappas.ipynb`](2_template_attack_on_kappas.ipynb) which is a verbose version of the example flow.
+  - [`1_dataset_presentation.ipynb`](src/1_dataset_presentation.ipynb) presenting the dataset structure and content,
+  - [`2_template_attack_on_kappas.ipynb`](src/2_template_attack_on_kappas.ipynb) which is a verbose version of the example flow.
 
 Just launch from the virtual environment
 ```bash
