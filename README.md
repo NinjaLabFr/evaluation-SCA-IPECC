@@ -304,10 +304,7 @@ Examples
     make link DATASET=linked.h5 DATA_DIR=./datasets PARTS="./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5"
 ```
 
-<details>
-<summary>
 ## Demonstration
-</summary>
 In this demonstration, we will create a directory `test_level3-1` in which we move our dataset and which will contain all the operations outputs.  
 
 **Step 1: Generating $\kappa$ and $\kappa'$**  
@@ -409,7 +406,6 @@ Processing subtraces 11000:11305
 Processing subtraces 13305:14131
 Success rate: 86.91
 ```
-<details>
 
 ## Citation
 Please use the following to cite the code in this repository or the datasets provided :
