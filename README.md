@@ -73,14 +73,14 @@ The script <code>test_level3-1.sh</code> is an all-in-one script which installs 
 ```bash
 git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
-bash test_level3-1.sh <local|docker>
+make demo-<local|docker> # equivalent to bash test_level3-1.sh <local|docker>
 ```
 
 **MacOS**
 ```bash
 git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
-zsh test_level3-1.sh <local|docker>
+make demo-<local|docker> # equivalent to zsh test_level3-1.sh <local|docker>
 ```
 
 ## Setup
