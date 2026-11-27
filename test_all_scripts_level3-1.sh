@@ -57,7 +57,7 @@ printf "\n${BOLD}5/ Linking dataset subsets ...${NC}\n"
 if [[ "$MODE" == "local" ]]; then
     make link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=. PARTS="ipecc_level_3-1_part_0.h5 ipecc_level_3-1_part_1.h5"
 else
-    docker build -t ipecc . && docker run --rm -v "$(pwd)":/datasets ipecc link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets PARTS="/datasets/ipecc_level_3-1_part_0.h5 /datasets/ipecc_level_3-1_part_1.h5"
+    docker build -f ../Dockerfile -t ipecc . && docker run -f ../Dockerfile --rm -v "$(pwd)":/datasets ipecc link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets PARTS="/datasets/ipecc_level_3-1_part_0.h5 /datasets/ipecc_level_3-1_part_1.h5"
 fi
 
 # Running SCA flow
