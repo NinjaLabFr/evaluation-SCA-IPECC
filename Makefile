@@ -67,7 +67,7 @@ require-dataset:
 		echo "error: $(BOLD)target '$(MAKECMDGOALS)' requires $(CYAN)DATASET$(RESET)." >&2; \
 		echo "  DATASET is the H5 dataset filename to use for SCA Flow (the concatenated virtual dataset is using several subsets)." >&2; \
 		echo "  example:" >&2; \
-		echo "    make $(MAKECMDGOALS) DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets" >&2; \
+		echo "    $(CYAN)make $(MAKECMDGOALS) DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets $(RESET)" >&2; \
 		exit 1; \
 	fi
 
@@ -76,7 +76,7 @@ require-data-dir:
 		echo "error: $(BOLD)target '$(MAKECMDGOALS)' requires $(CYAN)DATA_DIR$(RESET)." >&2; \
 		echo "  DATA_DIR is the directory containing the H5 dataset files." >&2; \
 		echo "  example:" >&2; \
-		echo "    make $(MAKECMDGOALS) DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets" >&2; \
+		echo "    $(CYAN)make $(MAKECMDGOALS) DATASET=ipecc_level_1-0.h5 DATA_DIR=./datasets $(RESET)" >&2; \
 		exit 1; \
 	fi
 
@@ -85,7 +85,7 @@ require-parts:
 		echo "error: $(BOLD)target '$(MAKECMDGOALS)' requires $(CYAN)PARTS$(RESET)." >&2; \
 		echo "  PARTS is a space-separated list of the H5 subset files to concatenate." >&2; \
 		echo "  example:" >&2; \
-		echo "    make $(MAKECMDGOALS) DATASET=linked.h5 DATA_DIR=./datasets PARTS=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\"" >&2; \
+		echo "    $(CYAN)make $(MAKECMDGOALS) DATASET=linked.h5 DATA_DIR=./datasets PARTS=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\" $(RESET)" >&2; \
 		exit 1; \
 	fi
 
