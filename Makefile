@@ -1,6 +1,6 @@
 # Inputs
-DATASET      ?= ipecc_level_1-0.h5
-DATA_DIR     ?= ./datasets
+DATASET      ?= 
+DATA_DIR     ?= 
 PARTS        ?=
 
 DATASET_PATH := $(DATA_DIR)/$(DATASET)
