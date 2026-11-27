@@ -35,6 +35,7 @@ help:
 	@echo ""
 	@echo "$(BOLD)Targets$(RESET)"
 	@echo "  $(CYAN)make all$(RESET)         Run the full SCA flow on $(DATASET_PATH)"
+	@echo "  $(CYAN)make docker-all$(RESET)  Run the full SCA flow in Docker"
 	@echo "  $(CYAN)make kappas$(RESET)      Compute kappas"
 	@echo "  $(CYAN)make splitting$(RESET)   Split traces into $(SUBTRACES)"
 	@echo "  $(CYAN)make snr$(RESET)         Compute SNR"
@@ -42,7 +43,6 @@ help:
 	@echo "  $(CYAN)make link$(RESET)        Concatenate subsets into $(DATASET_PATH) (if needed)"
 	@echo "  $(CYAN)make demo$(RESET)        Run the level3.1 demo (local)"
 	@echo "  $(CYAN)make demo-docker$(RESET) Run the level3.1 demo (Docker)"
-	@echo "  $(CYAN)make docker-all$(RESET)  Run the full flow in Docker"
 	@echo ""
 	@echo "$(BOLD)Examples$(RESET)"
 	@echo "  $(BOLD)Full flow$(RESET)"
@@ -100,13 +100,23 @@ demo-docker:
 	bash test_level3-1.sh docker
 
 
-IMAGE ?= ipecc
+# docker 
+IMAGE      ?= ipecc
 DOCKER_RUN := docker run --rm --user "$$(id -u):$$(id -g)"
+STAMP      := .docker-image.stamp
+
+# rebuild the image only when Dockerfile / deps / copied files change
+$(STAMP): Dockerfile requirements.txt Makefile $(wildcard *.py *.sh *.ipynb *.txt)
+	docker build -t $(IMAGE) .
+	@touch $@
+
+.PHONY: docker-build
+docker-build: $(STAMP)
 
 .PHONY: docker-link docker-all
 
-docker-link: docker-build
+docker-link: $(STAMP)
 	$(DOCKER_RUN) -v "$$(pwd)/test_level3-1":/datasets $(IMAGE) link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets PARTS="/datasets/ipecc_level_3-1_part_0.h5 /datasets/ipecc_level_3-1_part_1.h5"
 
-docker-all: docker-build
+docker-all: $(STAMP)
 	$(DOCKER_RUN) -v "$$(pwd)/test_level3-1":/datasets $(IMAGE) all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets

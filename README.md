@@ -276,15 +276,19 @@ Usage
   Every command needs DATASET and DATA_DIR.
   Use PARTS only for make link (concatenate subsets into one virtual dataset).
 
-  Defaults: DATASET=ipecc_level_1-0.h5  DATA_DIR=./datasets  PARTS=./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5
+  Defaults: DATASET=ipecc_level_1-0.h5  DATA_DIR=./datasets  PARTS=./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ip
+ecc_level_1-0_part_1.h5
 
 Targets
-  make all        Run the full SCA flow on ./datasets/ipecc_level_1-0.h5
-  make kappas     Compute kappas
-  make splitting  Split traces into ./datasets/subtraces.h5
-  make snr        Compute SNR
-  make attack     Run template attack
-  make link       Concatenate subsets into ./datasets/ipecc_level_1-0.h5 (if needed)
+  make all         Run the full SCA flow on ./datasets/ipecc_level_1-0.h5
+  make kappas      Compute kappas
+  make splitting   Split traces into ./datasets/subtraces.h5
+  make snr         Compute SNR
+  make attack      Run template attack
+  make link        Concatenate subsets into ./datasets/ipecc_level_1-0.h5 (if needed)
+  make demo        Run the level3.1 demo (local)
+  make demo-docker Run the level3.1 demo (Docker)
+  make docker-all  Run the full flow in Docker
 
 Examples
   Full flow
