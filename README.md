@@ -65,7 +65,7 @@ Otherwise, if you wish to dig deeper into the details of this work, please take 
 > You need at least $130GB$ of free disk space. More generally, if you download, decompress and run the SCA flow on $n$ subsets of one dataset, you will need at least $n \times 65GB$ of free disk space.
 
 <p align="justify">
-The script <code>test_all_scripts_level3-1.sh</code> is an all-in-one script which installs the required dependencies, downloads the two first subsets of the dataset corresponding to <a href="#level3-1">Level 3.1</a>, and runs the SCA scripts using them directly. All you need is to run the following shell commands (choose the usage mode local or docker, default is local):
+The script <code>test_level3-1.sh</code> is an all-in-one script which installs the required dependencies, downloads the two first subsets of the dataset corresponding to <a href="#level3-1">Level 3.1</a>, and runs the SCA scripts using them directly. All you need is to run the following shell commands (choose the usage mode local or docker, default is local):
 </p>
 
 
@@ -73,14 +73,14 @@ The script <code>test_all_scripts_level3-1.sh</code> is an all-in-one script whi
 ```bash
 git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
-bash test_all_scripts_level3-1.sh <local|docker>
+bash test_level3-1.sh <local|docker>
 ```
 
 **MacOS**
 ```bash
 git clone https://github.com/NinjaLabFr/evaluation-SCA-IPECC
 cd evaluation-SCA-IPECC
-zsh test_all_scripts_level3-1.sh <local|docker>
+zsh test_level3-1.sh <local|docker>
 ```
 
 ## Setup

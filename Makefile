@@ -34,12 +34,15 @@ help:
 	@echo "  $(DIM)Defaults: $(GREEN)DATASET$(RESET)$(DIM)=$(DATASET)  $(GREEN)DATA_DIR$(RESET)$(DIM)=$(DATA_DIR)  $(GREEN)PARTS$(RESET)$(DIM)=$(PARTS)$(RESET)"
 	@echo ""
 	@echo "$(BOLD)Targets$(RESET)"
-	@echo "  $(CYAN)make all$(RESET)        Run the full SCA flow on $(DATASET_PATH)"
-	@echo "  $(CYAN)make kappas$(RESET)     Compute kappas"
-	@echo "  $(CYAN)make splitting$(RESET)  Split traces into $(SUBTRACES)"
-	@echo "  $(CYAN)make snr$(RESET)        Compute SNR"
-	@echo "  $(CYAN)make attack$(RESET)     Run template attack"
-	@echo "  $(CYAN)make link$(RESET)       Concatenate subsets into $(DATASET_PATH) (if needed)"
+	@echo "  $(CYAN)make all$(RESET)         Run the full SCA flow on $(DATASET_PATH)"
+	@echo "  $(CYAN)make kappas$(RESET)      Compute kappas"
+	@echo "  $(CYAN)make splitting$(RESET)   Split traces into $(SUBTRACES)"
+	@echo "  $(CYAN)make snr$(RESET)         Compute SNR"
+	@echo "  $(CYAN)make attack$(RESET)      Run template attack"
+	@echo "  $(CYAN)make link$(RESET)        Concatenate subsets into $(DATASET_PATH) (if needed)"
+	@echo "  $(CYAN)make demo$(RESET)        Run the level3.1 demo (local)"
+	@echo "  $(CYAN)make demo-docker$(RESET) Run the level3.1 demo (Docker)"
+	@echo "  $(CYAN)make docker-all$(RESET)  Run the full flow in Docker"
 	@echo ""
 	@echo "$(BOLD)Examples$(RESET)"
 	@echo "  $(BOLD)Full flow$(RESET)"
@@ -84,3 +87,27 @@ all: kappas snr attack
 .PHONY: link
 link: $(PARTS)
 	python3 link_datasets.py $(PARTS) -o "$(DATASET_PATH)"
+
+
+# Test level 3.1 
+.PHONY: demo demo-local demo-docker
+demo: demo-local          
+
+demo-local:
+	bash test_level3-1.sh local
+
+demo-docker:
+	bash test_level3-1.sh docker
+
+
+IMAGE ?= ipecc
+DOCKER_RUN := docker run --rm --user "$$(id -u):$$(id -g)"
+
+.PHONY: docker-build
+docker-build:
+	docker build -t $(IMAGE) .
+
+.PHONY: docker-link docker-all
+docker-link: docker-build $(DOCKER_RUN) -v "$$(pwd)/test_level3-1":/datasets $(IMAGE) link DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets PARTS="/datasets/ipecc_level_3-1_part_0.h5 /datasets/ipecc_level_3-1_part_1.h5"
+
+docker-all: docker-build $(DOCKER_RUN) -v "$$(pwd)/test_level3-1":/datasets $(IMAGE) all DATASET=ipecc_level_3-1_parts_0-1-combined.h5 DATA_DIR=/datasets
