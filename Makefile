@@ -1,7 +1,7 @@
 # Inputs
 DATASET      ?= ipecc_level_1-0.h5
 DATA_DIR     ?= ./datasets
-PARTS        ?= $(DATA_DIR)/ipecc_level_1-0_part_0.h5 $(DATA_DIR)/ipecc_level_1-0_part_1.h5
+PARTS        ?=
 
 DATASET_PATH := $(DATA_DIR)/$(DATASET)
 SUBTRACES    := $(DATA_DIR)/subtraces.h5
@@ -29,9 +29,9 @@ help:
 	@echo "  $(CYAN)make$(RESET) $(CYAN)<target>$(RESET) [$(BOLD)$(GREEN)DATASET$(RESET)=<name.h5>] [$(BOLD)$(GREEN)DATA_DIR$(RESET)=<dir>] [$(BOLD)$(GREEN)PARTS$(RESET)=\"<part_0.h5> <part_1.h5> ...\"]"
 	@echo ""
 	@echo "  Every command needs $(BOLD)$(GREEN)DATASET$(RESET) and $(BOLD)$(GREEN)DATA_DIR$(RESET)."
-	@echo "  Use $(BOLD)$(GREEN)PARTS$(RESET) only for $(CYAN)make link$(RESET) (concatenate subsets into one virtual dataset)."
+	@echo "  Use $(BOLD)$(GREEN)PARTS$(RESET) only for $(CYAN)make link$(RESET) / $(CYAN)make docker-link$(RESET) (concatenate subsets into one virtual dataset)."
 	@echo ""
-	@echo "  $(DIM)Defaults: $(GREEN)DATASET$(RESET)$(DIM)=$(DATASET)  $(GREEN)DATA_DIR$(RESET)$(DIM)=$(DATA_DIR)  $(GREEN)PARTS$(RESET)$(DIM)=$(PARTS)$(RESET)"
+	@echo "  $(DIM)Defaults: $(GREEN)DATASET$(RESET)$(DIM)=$(DATASET)  $(GREEN)DATA_DIR$(RESET)$(DIM)=$(DATA_DIR)  ($(GREEN)PARTS$(RESET)$(DIM) required for link / docker-link)$(RESET)"
 	@echo ""
 	@echo "$(BOLD)Targets$(RESET)"
 	@echo "  $(CYAN)make all$(RESET)         Run the full SCA flow on $(DATASET_PATH)"
@@ -41,6 +41,7 @@ help:
 	@echo "  $(CYAN)make snr$(RESET)         Compute SNR"
 	@echo "  $(CYAN)make attack$(RESET)      Run template attack"
 	@echo "  $(CYAN)make link$(RESET)        Concatenate subsets into $(DATASET_PATH) (if needed)"
+	@echo "  $(CYAN)make docker-link$(RESET) Concatenate subsets into $(DATASET_PATH) in Docker (if needed)"
 	@echo "  $(CYAN)make demo$(RESET)        Run the level3.1 demo (local)"
 	@echo "  $(CYAN)make demo-docker$(RESET) Run the level3.1 demo (Docker)"
 	@echo ""
@@ -56,6 +57,20 @@ help:
 	@echo ""
 	@echo "  $(BOLD)Concatenate subsets$(RESET)"
 	@echo "    $(CYAN)make link$(RESET) $(GREEN)DATASET$(RESET)=linked.h5 $(GREEN)DATA_DIR$(RESET)=./datasets $(GREEN)PARTS$(RESET)=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\""
+	@echo "    $(CYAN)make docker-link$(RESET) $(GREEN)DATASET$(RESET)=linked.h5 $(GREEN)DATA_DIR$(RESET)=./datasets $(GREEN)PARTS$(RESET)=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\""
+
+
+# clear "missing argument" error, with target name and example.
+.PHONY: require-parts
+require-parts:
+	@if [ -z "$(strip $(PARTS))" ]; then \
+		echo "error: target '$(MAKECMDGOALS)' requires PARTS." >&2; \
+		echo "  PARTS is a space-separated list of the subset files to concatenate." >&2; \
+		echo "  example:" >&2; \
+		echo "    make $(MAKECMDGOALS) DATASET=linked.h5 DATA_DIR=./datasets \\" >&2; \
+		echo "         PARTS=\"./datasets/ipecc_level_1-0_part_0.h5 ./datasets/ipecc_level_1-0_part_1.h5\"" >&2; \
+		exit 1; \
+	fi
 
 
 #compute kappas
@@ -79,19 +94,19 @@ snr: $(SUBTRACES)
 attack: $(SUBTRACES)
 	python3 template_attack.py -d "$(SUBTRACES)" -i kappa_prime -t 0.0009
 
-#full sca flow 
+#full sca flow
 .PHONY: all
 all: kappas snr attack
 
 #link datasets
 .PHONY: link
-link: $(PARTS)
+link: require-parts
 	python3 link_datasets.py $(PARTS) -o "$(DATASET_PATH)"
 
 
-# Test level 3.1 
+# Test level 3.1
 .PHONY: demo demo-local demo-docker
-demo: demo-local          
+demo: demo-local
 
 demo-local:
 	bash test_level3-1.sh local
@@ -100,10 +115,9 @@ demo-docker:
 	bash test_level3-1.sh docker
 
 
-# docker 
+# docker
 IMAGE      ?= ipecc
 DOCKER_RUN := docker run --rm
-DOCKER_MOUNT ?= $(DATA_DIR)
 STAMP      := .docker-image.stamp
 
 #avoiding to rebuild the docker image when not necessary
@@ -116,10 +130,21 @@ docker-build: $(STAMP)
 
 .PHONY: docker-link docker-all
 
+# Host paths (PARTS) -> container paths (/datasets/...)
 DOCKER_PARTS := $(patsubst $(DATA_DIR)/%,/datasets/%,$(PARTS))
 
-docker-link: $(STAMP)
-	$(DOCKER_RUN) -v "$$(pwd)/$(DATA_DIR)":/datasets $(IMAGE) link DATASET=$(DATASET) DATA_DIR=/datasets PARTS="$(DOCKER_PARTS)"
+docker-link: require-parts $(STAMP)
+	@for p in $(PARTS); do \
+		case "$$p" in \
+			$(DATA_DIR)/*) ;; \
+			*) echo "error: docker-link expects PARTS entries under $(DATA_DIR)/ (got '$$p')" >&2; \
+			   echo "  example: PARTS=\"$(DATA_DIR)/ipecc_level_1-0_part_0.h5 $(DATA_DIR)/ipecc_level_1-0_part_1.h5\"" >&2; \
+			   exit 1 ;; \
+		esac; \
+	done
+	$(DOCKER_RUN) -v "$$(pwd)/$(DATA_DIR)":/datasets $(IMAGE) link \
+		DATASET=$(DATASET) DATA_DIR=/datasets PARTS="$(DOCKER_PARTS)"
 
 docker-all: $(STAMP)
-	$(DOCKER_RUN) -v "$$(pwd)/$(DOCKER_MOUNT)":/datasets $(IMAGE) all DATASET=$(DATASET) DATA_DIR=/datasets
+	$(DOCKER_RUN) -v "$$(pwd)/$(DATA_DIR)":/datasets $(IMAGE) all \
+		DATASET=$(DATASET) DATA_DIR=/datasets
