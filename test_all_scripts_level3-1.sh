@@ -9,6 +9,11 @@ CYAN_BOLD='\033[1;36m'
 BOLD='\033[1m'
 NC='\033[0m' # No style
 
+# Default mode: local
+MODE=${1:-"local"}
+
+echo -e "${CYAN_BOLD}$MODE usage selected${NC}"
+
 # Print help
 if [[ "$1" == "-h" ]]; then
     echo "Usage: $0 [local|docker]"
@@ -16,10 +21,6 @@ if [[ "$1" == "-h" ]]; then
     exit 0
 fi
 
-# Default mode: local
-MODE=${1:-"local"}
-
-echo -e "${CYAN_BOLD}$MODE usage selected${NC}"
 
 # Directory setup
 dir="test_level3-1"
